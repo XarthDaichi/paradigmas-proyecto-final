@@ -13,12 +13,11 @@ const KeywordChecker = ({ text }) => {
       .then((data) => setIsKeyword(data.isKeyword))
       .catch((error) => console.error('Error checking if text is a keyword:', error));
   }, [text]);
-  return null; // No rendering
-  /*return (
+  return (
     <div>
       <p> {text} is a keyword: {isKeyword.toString()}</p>
     </div>
-  );*/
+  );
 };
 
 export default KeywordChecker;
