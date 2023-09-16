@@ -1,0 +1,65 @@
+.custom-textarea {
+  
+  width: 300px;    /* Specify your desired width */
+  height: 200px;   /* Specify your desired height */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+}
+.bg-black {
+    background-color: black;
+}
+.text-white {
+    color:white;
+}
+
+.custom-container{
+  margin-left: 20%; 
+  margin-top: 10%;  
+
+}
+
+.custom-buttons{
+  margin-left: 20%; 
+  margin-top: 1%;  
+
+}
+
+body {
+  background-color: white; /* Fondo blanco para la página */
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif; /* Cambia la fuente según tus preferencias */
+}
+
+.header {
+  background-color: lightblue; /* Fondo celeste para el encabezado */
+  color: navy; /* Color de texto para el encabezado */
+  padding: 10px;
+}
+
+.header h1 {
+  font-family: 'Montserrat', sans-serif;
+
+}
+
+/* Estilos para el menú desplegable */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: lightblue;
+  min-width: 160px;
+  z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+
+.navbar-brand .rounded-circle {
+  margin-right: 20px; 
+}
