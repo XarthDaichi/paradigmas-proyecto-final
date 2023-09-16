@@ -62,13 +62,17 @@ const TextEditor = ({ keywordsList }) => {
         onChange={handleInputChange}
         placeholder=""
       />
-      <textarea id="TO" className="custom-textarea bg-black text-white" readOnly value={outputText} />
+      <div className="arrow">→</div>
+      <textarea
+        id="TO"
+        className="custom-textarea bg-black text-white"
+        readOnly
+        value={outputText}
+      />
       <div className="custom-buttons">
         <button onClick={handleClear}>Clear All</button>
         <button onClick={handleSendToServer}>Send to Server</button>
       </div>
-
-      
       <KeywordChecker text={inputText} />
     </div>
   );

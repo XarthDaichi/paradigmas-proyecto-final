@@ -1,8 +1,13 @@
 .custom-textarea {
   
   width: 300px;    /* Specify your desired width */
-  height: 200px;   /* Specify your desired height */
+  height: 150px;   /* Specify your desired height */
   overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 3px solid #ccc;
+  border-radius: 5px;
+  align-items: center;
 }
 .bg-black {
     background-color: black;
@@ -11,16 +16,17 @@
     color:white;
 }
 
-.custom-container{
-  margin-left: 20%; 
-  margin-top: 10%;  
+.custom-container{ 
+  display: inline-block;
+  flex-direction: column;
+  align-items: center;
+  margin: 50px;
 
 }
 
 .custom-buttons{
-  margin-left: 20%; 
+  margin-left: 1%; 
   margin-top: 1%;  
-
 }
 
 body {
@@ -48,7 +54,7 @@ body {
 }
 
 .dropdown-content {
-  display: none;
+  display: inline-block;
   position: absolute;
   background-color: lightblue;
   min-width: 160px;
@@ -62,4 +68,44 @@ body {
 
 .navbar-brand .rounded-circle {
   margin-right: 20px; 
+}
+
+
+/* Estilo para el botón Clear */
+.custom-buttons button:first-child {
+  background-color: #ff6347; /* Rojo */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.custom-buttons button:first-child:hover {
+  background-color: #ff0000; /* Rojo más oscuro al pasar el mouse */
+}
+
+/* Estilo para el botón Send */
+.custom-buttons button:last-child {
+  background-color: #008000; /* Verde */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.custom-buttons button:last-child:hover {
+  background-color: #006400; /* Verde más oscuro al pasar el mouse */
+}
+
+.arrow {
+  font-size: 100px;
+  color: #333; /* Color de la flecha */
+  display: inline-block;
+  align-items: center;
+
 }
