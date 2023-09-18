@@ -69,11 +69,12 @@ const TextEditor = ({ keywordsList }) => {
         readOnly
         value={outputText}
       />
+      <KeywordChecker text={inputText} />
       <div className="custom-buttons">
         <button onClick={handleClear}>Clear All</button>
         <button onClick={handleSendToServer}>Send to Server</button>
       </div>
-      <KeywordChecker text={inputText} />
+      
     </div>
   );
 };

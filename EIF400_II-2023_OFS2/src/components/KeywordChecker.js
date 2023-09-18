@@ -15,7 +15,11 @@ const KeywordChecker = ({ text }) => {
   }, [text]);
   return (
     <div>
-      <p> {text} is a keyword: {isKeyword.toString()}</p>
+      <div className="console-box"> 
+        <p>
+          {text} is a keyword: <span className={isKeyword ? 'keyword' : ''}>{isKeyword.toString()}</span> 
+        </p>
+      </div>
     </div>
   );
 };
