@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import '../App.css';
 
 import KeywordChecker from './KeywordChecker'; 
-import ScriptPopup from './ScriptPopup'; // Importa el componente ScriptPopup aquí
+import ScriptPopup from './ScriptPopup'; 
 
 
 import {API_SERVER_URL} from './Url';
@@ -14,6 +14,7 @@ const TextEditor = ({ keywordsList }) => {
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
 
 
@@ -62,15 +63,20 @@ const TextEditor = ({ keywordsList }) => {
     setIsPopupOpen(true);
   };
 
-  // Esta función se llamará cuando el usuario ingrese el nombre del script en el popup
+  
   const handleSaveScriptPopup = (scriptName) => {
-    // Crea un objeto con el nombre del script y el texto de entrada
+
+    if (scriptName.trim() === '') {
+      setErrorMessage('El nombre del script no puede estar vacío');
+      return;
+    }
+    
     const newScript = {
       name: scriptName,
       text: inputText,
     };
 
-    // Envía el nuevo script al servidor
+  
     fetch(`${API_SERVER_URL}/scripts`, {
       method: 'POST',
       headers: {
@@ -81,19 +87,21 @@ const TextEditor = ({ keywordsList }) => {
       .then((response) => response.json())
       .then((data) => {
         setOutputText(data.message);
-        setIsPopupOpen(false); // Cierra el popup después de guardar el script
+        setIsPopupOpen(false); 
+        setErrorMessage('');
       })
       .catch((error) => console.error('Error sending data to server:', error));
   };
 
   return (
+    <div className="center-container"> 
     <div className="custom-container">
       <textarea
         id="TI"
         className="custom-textarea"
         value={inputText}
         onChange={handleInputChange}
-        placeholder=""
+        placeholder="Insertar codigo aquí..."
       />
       <div className="arrow">→</div>
       <textarea
@@ -106,11 +114,11 @@ const TextEditor = ({ keywordsList }) => {
       <div className="custom-buttons">
         <button onClick={handleClear}>Clear All</button>
         <button onClick={handleSendToServer}>Send to Server</button>
-        <button onClick={handleSaveScript} style={{ backgroundColor: 'lightblue' }}>
-          Save Script
-        </button>
+        <button onClick={handleSaveScript}>Save Script</button>
       </div>
       {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} />}
+      {errorMessage && <div className="error-message">{errorMessage}</div>}
+    </div>
     </div>
   );
 };

@@ -12,7 +12,7 @@ const ScriptPopup = ({ onSave }) => {
     <div className="script-popup">
       <input
         type="text"
-        placeholder="Enter script name"
+        placeholder="Introducir el nombre del script"
         value={scriptName}
         onChange={(e) => setScriptName(e.target.value)}
       />
