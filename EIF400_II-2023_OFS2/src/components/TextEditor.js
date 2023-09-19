@@ -6,6 +6,7 @@ import KeywordChecker from './KeywordChecker';
 
 import {API_SERVER_URL} from './Url';
 
+// import fs from 'fs';
 
 const TextEditor = ({ keywordsList }) => { 
   const [inputText, setInputText] = useState('');
@@ -52,6 +53,11 @@ const TextEditor = ({ keywordsList }) => {
       .catch((error) => console.error('Error sending data to server:', error));
   };
 
+  const handleSaveScriptClick = () => {
+    let data = JSON.stringify({text : inputText});
+    // fs.writeFileSync('test.json', data);
+  }
+
   
   return (
     <div className="custom-container">
@@ -73,8 +79,8 @@ const TextEditor = ({ keywordsList }) => {
       <div className="custom-buttons">
         <button onClick={handleClear}>Clear All</button>
         <button onClick={handleSendToServer}>Send to Server</button>
-      </div>
-      
+        <button onClick={handleSaveScriptClick} style={{backgroundColor: 'lightblue'}}>Save Script</button>
+      </div>      
     </div>
   );
 };
