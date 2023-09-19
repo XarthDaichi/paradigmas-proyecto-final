@@ -55,11 +55,37 @@ app.get('/word', (req, res) => {
   const { key } = req.query;
   const isKeyword = keywordsList.includes(key.trim());
   const data = { text: key, isKeyword };
-  //console.log(data)
+  // console.log(data)
   res.json(data);
 });
 
 
+function loadScripts() {
+  const scriptFilePath = path.join(__dirname, 'scripts.json');
+  try {
+    const scriptData = fs.readFileSync(scriptFilePath, 'utf8');
+    if (scriptData === '') return [];
+    debugger;
+    var scripts = JSON.parse(scriptData);
+    // console.log(scripts);
+    return scripts;
+  } catch (error) {
+    console.error('Error loading script:', error);
+    return {};
+  }
+}
+
+app.post('/scripts', (req, res) => {
+  
+  var scripts = loadScripts();
+  debugger;
+  const newScript = req.body;
+  console.log(req.body);
+  newScript.id = String(scripts.length + 1);
+  scripts.push(newScript);
+  fs.writeFileSync('scripts.json', JSON.stringify(scripts));
+  res.json({ message: 'Script saved' });
+});
 
 // Start the Express server
 app.listen(port, () => {
