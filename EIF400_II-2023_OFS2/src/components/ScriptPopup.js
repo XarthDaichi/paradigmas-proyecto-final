@@ -9,6 +9,7 @@ const ScriptPopup = ({ onSave }) => {
   };
 
   return (
+    <div style={{ marginLeft: '30%' }} > 
     <div className="script-popup">
       <input
         type="text"
@@ -17,6 +18,7 @@ const ScriptPopup = ({ onSave }) => {
         onChange={(e) => setScriptName(e.target.value)}
       />
       <button onClick={handleSave}>Save</button>
+    </div>
     </div>
   );
 };

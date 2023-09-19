@@ -70,6 +70,11 @@ const TextEditor = ({ keywordsList }) => {
       setErrorMessage('El nombre del script no puede estar vacío');
       return;
     }
+
+    if (inputText.trim() === '') {
+      setErrorMessage('El contenido del script no puede estar vacío');
+      return;
+    }
     
     const newScript = {
       name: scriptName,
