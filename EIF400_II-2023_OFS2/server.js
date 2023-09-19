@@ -60,6 +60,27 @@ app.get('/word', (req, res) => {
 });
 
 
+function loadScripts() {
+  const scriptFilePath = path.join(__dirname, 'scripts.json');
+  try {
+    const scriptData = fs.readFileSync(scriptFilePath, 'utf8');
+    const scripts = JSON.parse(scriptData);
+    return scripts;
+  } catch (error) {
+    console.error('Error loading script:', error);
+    return {};
+  }
+}
+
+app.post('/scripts', (req, res) => {
+  
+  const scripts = loadScripts();
+  const newScript = req.body;
+  newScript.id = String(scripts.length + 1);
+  scripts.push(newScript);
+  fs.writeFileSync('scripts.json', JSON.stringify(scripts));
+  res.json({ message: 'Script saved' });
+});
 
 // Start the Express server
 app.listen(port, () => {
