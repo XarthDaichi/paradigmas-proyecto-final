@@ -70,10 +70,8 @@ body {
   margin-right: 20px; 
 }
 
-
-/* Estilo para el botón Clear */
 .custom-buttons button:first-child {
-  background-color: #ff6347; /* Rojo */
+  background-color: #f6492a;
   color: white;
   border: none;
   border-radius: 5px;
@@ -84,12 +82,26 @@ body {
 }
 
 .custom-buttons button:first-child:hover {
-  background-color: #ff0000; /* Rojo más oscuro al pasar el mouse */
+  background-color: #ff0000;
 }
 
-/* Estilo para el botón Send */
+.custom-buttons button:nth-child(2) {
+  background-color: #008000;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.custom-buttons button:nth-child(2):hover {
+  background-color: #006400;
+}
+
 .custom-buttons button:last-child {
-  background-color: #008000; /* Verde */
+  background-color: rgb(88, 204, 242);
   color: white;
   border: none;
   border-radius: 5px;
@@ -99,12 +111,16 @@ body {
 }
 
 .custom-buttons button:last-child:hover {
-  background-color: #006400; /* Verde más oscuro al pasar el mouse */
+  background-color: #0583d1;
+}
+
+.custom-buttons {
+  margin-left: 23%; 
 }
 
 .arrow {
   font-size: 100px;
-  color: #333; /* Color de la flecha */
+  color: #333; 
   display: inline-block;
   align-items: center;
 
@@ -120,4 +136,16 @@ body {
 
 .keyword {
   color: blue;
+}
+.error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  min-height: 50vh; 
 }
