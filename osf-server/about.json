@@ -1,0 +1,29 @@
+{
+    "autores": [
+        {
+            "name": "Daniela Madrigal Morales",
+            "id": "1-1753-0126",
+            "correo": "daniela.madrigal.morales@est.una.ac.cr"
+        },
+        {
+            "name": "Jennifer Lobo Vásquez",
+            "id": "2-0802-0417",
+            "correo": "jennifer.lobo.vasquez@est.una.ac.cr"
+        },
+        {
+            "name": "Diego Quirós Artiñano",
+            "id": "9-0115-0326",
+            "correo": "diego.quiros.artinano@est.una.ac.cr"
+        },
+        {
+            "name": "Jorge Durán Campos",
+            "id": "1-1843-0731",
+            "correo": "jorge.duran.campos@est.una.ac.cr"
+        }
+    ],
+    "curso": "Paradigmas de Programación",
+    "horario": "6:00 PM",
+    "grupo": "03",
+    "escuela": "Escuela de Informática (ESCINF)",
+    "universidad": "Universidad Nacional de Costa Rica (UNA)"
+}
