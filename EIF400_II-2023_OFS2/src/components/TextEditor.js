@@ -10,21 +10,21 @@ import TextStats from './TextStats';
 
 import {API_SERVER_URL} from './Url';
 
-// import fs from 'fs';
 
 const TextEditor = ({ keywordsList }) => {
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [isSaved, setIsSaved] = useState(false); // Variable para indicar si está guardado
+  const [isSaved, setIsSaved] = useState(false); 
+  const [scriptName, setScriptName] = useState('');
 
   const handleClear = () => {
     const confirmed = window.confirm('Are you sure you want to clear the text?');
     if (confirmed) {
       setInputText('');
       setOutputText('');
-      setIsSaved(false); // Marcar como no guardado cuando se borra el texto
+      setIsSaved(false); 
     }
   };
 
@@ -61,7 +61,7 @@ const TextEditor = ({ keywordsList }) => {
     setIsPopupOpen(true);
   };
 
-  const handleSaveScriptPopup = (scriptName) => {
+ const handleSaveScriptPopup = (scriptName) => {
     if (scriptName.trim() === '') {
       setErrorMessage('El nombre del script no puede estar vacío');
       return;
@@ -77,6 +77,16 @@ const TextEditor = ({ keywordsList }) => {
       text: inputText,
     };
 
+    console.log('Saving new script:', newScript);
+
+    setScriptName(scriptName);
+
+    setInputText('');
+    setIsPopupOpen(false);
+    setErrorMessage('');
+
+     
+
     fetch(`${API_SERVER_URL}/scripts`, {
       method: 'POST',
       headers: {
@@ -88,39 +98,34 @@ const TextEditor = ({ keywordsList }) => {
       .then((data) => {
         setOutputText(data.message);
         setIsPopupOpen(false);
-        setIsSaved(true); // Marcar como guardado después de guardar el script
+        setIsSaved(true); 
         setErrorMessage('');
       })
       .catch((error) => console.error('Error sending data to server:', error));
   };
 
-  // Función para calcular la línea actual
   const calcularLineaActual = () => {
     const lineas = inputText.split('\n');
     const numeroDeLinea = lineas.findIndex((linea) => linea.includes(inputText)) + 1;
     return numeroDeLinea;
   };
 
-  // Función para calcular el total de líneas
   const calcularTotalDeLineas = () => {
     const lineas = inputText.split('\n');
     return lineas.length;
   };
 
-  // Función para calcular el total de palabras
   const calcularTotalDePalabras = () => {
     const palabras = inputText.split(/\s+/);
     return palabras.length;
   };
 
   useEffect(() => {
-    // Calcular la línea actual, el total de líneas y el total de palabras
+  
     const lineaActual = calcularLineaActual();
     const totalLineas = calcularTotalDeLineas();
     const totalPalabras = calcularTotalDePalabras();
 
-    // Actualizar el estado con los cálculos
-    // Puedes usar estos valores en TextStats
   }, [inputText]);
 
   return (
@@ -151,11 +156,11 @@ const TextEditor = ({ keywordsList }) => {
         
         {/* Agrega el componente TextStats con los valores calculados */}
         <TextStats
-          filename="Nombre del Archivo" // Reemplaza con tu lógica para obtener el nombre del archivo
-          currentLine={calcularLineaActual()} // Usa la función para calcular la línea actual
-          totalLines={calcularTotalDeLineas()} // Usa la función para calcular el total de líneas
-          totalWords={calcularTotalDePalabras()} // Usa la función para calcular el total de palabras
-          isSaved={isSaved} // Utiliza la variable isSaved
+          filename={scriptName} 
+          currentLine={calcularLineaActual()} 
+          totalLines={calcularTotalDeLineas()} 
+          totalWords={calcularTotalDePalabras()} 
+          isSaved={isSaved} 
         />
       </div>
     </div>

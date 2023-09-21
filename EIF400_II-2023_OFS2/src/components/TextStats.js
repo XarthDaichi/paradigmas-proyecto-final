@@ -4,7 +4,7 @@ function TextStats({ filename, currentLine, totalLines, totalWords, isSaved }) {
   return (
     <div className="text-stats">
       <div className="file-info">
-        <span className="filename">{filename}</span><br />
+        <span className="filename">Nombre del Archivo: {filename}</span><br />
         <span className="saved-status">{isSaved ? 'Guardado' : 'No Guardado'}</span><br />
       </div>
       <div className="line-info">
