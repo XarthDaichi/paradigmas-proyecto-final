@@ -87,7 +87,7 @@ const TextEditor = ({ keywordsList }) => {
 
      
 
-    fetch(`${API_SERVER_URL}/scripts`, {
+    fetch(`${API_SERVER_URL}/script`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
