@@ -73,8 +73,8 @@ const TextEditor = ({ keywordsList }) => {
     }
 
     const newScript = {
-      name: scriptName,
-      text: inputText,
+      "name": scriptName,
+      "text": inputText,
     };
 
     console.log('Saving new script:', newScript);

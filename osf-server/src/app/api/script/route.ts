@@ -31,6 +31,8 @@ export async function POST(req: Request) {
 
     scripts.push(newScript)
 
+    console.log(scripts)
+
     writeFileSync('scripts.json', JSON.stringify(scripts))
 
     return NextResponse.json({"message": "Script saved"})
