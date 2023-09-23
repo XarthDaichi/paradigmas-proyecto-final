@@ -1,6 +1,16 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import { API_SERVER_URL } from './Url';
 
-const About = () => {
+const About = ({ about }) => {
+  
+  useEffect(() => {
+    fetch(`${API_SERVER_URL}/about`)
+    .then((response) => {return response.json()})
+    .catch((error) => console.error('Error recovering about information:', error));
+  }, [about]);
+  
+  console.log(about);
+
   return (
     <div className="container mt-5">
       <div className="row">
@@ -9,7 +19,7 @@ const About = () => {
             <div className="card-body">
               <h2 className="card-title text-center">Estudiantes</h2>
               <ul className="list-group">
-                <li className="list-group-item">Daniela Madrigal Morales</li>
+                <li className="list-group-item">{about}</li>
                 <li className="list-group-item">Jennifer Lobo Vásquez</li>
                 <li className="list-group-item">Diego Quiros Artiñano</li>
                 <li className="list-group-item">Jorge Durán Campos</li>
