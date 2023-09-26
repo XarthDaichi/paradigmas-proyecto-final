@@ -1,31 +1,51 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { API_SERVER_URL } from './Url';
 
 const About = () => {
+  const [about, setAbout] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_SERVER_URL}/about`);
+        if (!response.ok) {
+          throw new Error('No se pudo obtener la información');
+        }
+        const data = await response.json();
+        setAbout(data);
+      } catch (error) {
+        console.error('Error al recuperar la información sobre About:', error);
+      }
+    };
+  
+    fetchData();
+  }, []);
+  
+
+  console.log(about);
+
+  if (!about) {
+    return <div>Cargando...</div>; 
+  }
+
   return (
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-md-6 offset-md-3">
-          <div className="card">
-            <div className="card-body">
-              <h2 className="card-title text-center">Estudiantes</h2>
-              <ul className="list-group">
-                <li className="list-group-item">Daniela Madrigal Morales</li>
-                <li className="list-group-item">Jennifer Lobo Vásquez</li>
-                <li className="list-group-item">Diego Quiros Artiñano</li>
-                <li className="list-group-item">Jorge Durán Campos</li>
-              </ul>
-              <div className="mt-4">
-                <h3>Curso:</h3>
-                <p>Paradigmas de Programación</p>
-                <h3>Horario:</h3>
-                <p>6:00 PM</p>
-                <h3>Grupo:</h3>
-                <p>Grupo 03</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div>
+      <h1>Información About</h1>
+      <p>Curso: {about.curso}</p>
+      <p>Horario: {about.horario}</p>
+      <p>Grupo: {about.grupo}</p>
+      <p>Escuela: {about.escuela}</p>
+      <p>Universidad: {about.universidad}</p>
+      <h2>Autores:</h2>
+      <ul>
+        {about.autores.map((autor) => (
+          <li key={autor.id}>
+            <p>Nombre: {autor.name}</p>
+            <p>ID: {autor.id}</p>
+            <p>Correo: {autor.correo}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
