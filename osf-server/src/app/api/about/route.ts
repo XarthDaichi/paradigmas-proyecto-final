@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server'
-import aboutJson from '../../../../about.json'
+// import { limiter } from "../config/limiter"
+import { NextResponse } from 'next/server';
+import aboutJson from '../../../../about.json';
 
 export async function GET() {
-    return NextResponse.json(aboutJson)
+  return NextResponse.json(aboutJson);
 }
