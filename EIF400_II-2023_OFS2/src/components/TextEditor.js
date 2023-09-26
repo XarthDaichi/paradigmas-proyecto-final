@@ -20,6 +20,7 @@ const TextEditor = ({ keywordsList }) => {
   const [scriptName, setScriptName] = useState('');
   const [scriptId, setScriptId] = useState('');
   const [availableScriptIds, setAvailableScriptIds] = useState([]);
+  const [currentLineNumber, setCurrentLineNumber] = useState(1);
 
   const handleClear = () => {
     const confirmed = window.confirm('Are you sure you want to clear the text?');
@@ -139,11 +140,13 @@ const TextEditor = ({ keywordsList }) => {
       .catch((error) => console.error('Error sending data to server:', error));
   };
   
+  const handleKeyDown = (e) => {
+    const currentCursorPosition = e.target.selectionStart;
+    const textBeforeCursor = inputText.substring(0, currentCursorPosition);
+    const lines = textBeforeCursor.split('\n');
+    const currentLine = lines.length;
   
-  const calcularLineaActual = () => {
-    const lineas = inputText.split('\n');
-    const numeroDeLinea = lineas.findIndex((linea) => linea.includes(inputText)) + 1;
-    return numeroDeLinea;
+    setCurrentLineNumber(currentLine);
   };
 
   const calcularTotalDeLineas = () => {
@@ -172,8 +175,6 @@ const TextEditor = ({ keywordsList }) => {
   
 
   useEffect(() => {
-  
-    const lineaActual = calcularLineaActual();
     const totalLineas = calcularTotalDeLineas();
     const totalPalabras = calcularTotalDePalabras();
     loadAvailableScriptIds();
@@ -188,6 +189,7 @@ const TextEditor = ({ keywordsList }) => {
           className="custom-textarea"
           value={inputText}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           placeholder="Insertar código aquí..."
         />
         <div className="arrow">→</div>
@@ -223,7 +225,7 @@ const TextEditor = ({ keywordsList }) => {
         <div className="info-box">
         <TextStats
             filename={scriptName}
-            currentLine={calcularLineaActual()}
+            currentLine={currentLineNumber}
             totalLines={calcularTotalDeLineas()}
             totalWords={calcularTotalDePalabras()}
             isSaved={isSaved}
