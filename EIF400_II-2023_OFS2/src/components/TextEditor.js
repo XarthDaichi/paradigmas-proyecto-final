@@ -18,6 +18,7 @@ const TextEditor = ({ keywordsList }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaved, setIsSaved] = useState(false); 
   const [scriptName, setScriptName] = useState('');
+  const [scriptId, setScriptId] = useState('');
 
   const handleClear = () => {
     const confirmed = window.confirm('Are you sure you want to clear the text?');
@@ -104,6 +105,40 @@ const TextEditor = ({ keywordsList }) => {
       .catch((error) => console.error('Error sending data to server:', error));
   };
 
+  const handleRetrieveScript = () => {
+    if (!scriptId.trim()) {
+      setErrorMessage('Please enter a valid Script ID');
+      return;
+    }
+  
+    // Realiza la solicitud al servidor para recuperar el script con el ID proporcionado
+    fetch(`${API_SERVER_URL}/script/${scriptId}`, {
+      method: 'GET',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.message) {
+          setErrorMessage(data.message);
+        } else {
+          // Actualiza el estado de inputText y scriptName con los datos recuperados
+          setInputText(data.text);
+          setScriptName(data.name);
+          setIsSaved(true);
+          setErrorMessage('');
+          setOutputText(''); // Limpia el texto de salida
+        }
+      })
+      .catch((error) => {
+        console.error('Error retrieving script from server:', error);
+        setErrorMessage('Error retrieving script. Please try again later.');
+      });
+  };
+  
+  const handleScriptIdChange = (e) => {
+    setScriptId(e.target.value);
+    setErrorMessage('');
+  };
+  
   const calcularLineaActual = () => {
     const lineas = inputText.split('\n');
     const numeroDeLinea = lineas.findIndex((linea) => linea.includes(inputText)) + 1;
@@ -150,6 +185,15 @@ const TextEditor = ({ keywordsList }) => {
           <button onClick={handleClear}>Clear All</button>
           <button onClick={handleSendToServer}>Send to Server</button>
           <button onClick={handleSaveScript}>Save Script</button>
+        </div>
+        <div className="custom-buttons">
+          <button onClick={handleRetrieveScript}>Retrieve Script</button>
+          <input
+            type="text"
+            placeholder="Enter Script ID"
+            value={scriptId}
+            onChange={handleScriptIdChange}
+          />
         </div>
         {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} />}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
