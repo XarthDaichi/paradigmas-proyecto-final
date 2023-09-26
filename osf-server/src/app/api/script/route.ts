@@ -23,7 +23,7 @@ function loadScripts() {
         const scriptData = readFileSync(join(__dirname, '../../../../scripts.json'), 'utf8')
         if (scriptData === '' || scriptData === '{}') return []
 
-        var scripts = JSON.parse(scriptData)
+        let scripts = JSON.parse(scriptData)
 
         return scripts
     } catch (error) {
@@ -33,7 +33,7 @@ function loadScripts() {
 }
 
 export async function POST(req: Request) {
-    var scripts = loadScripts()
+    let scripts = loadScripts()
 
     const { name, text }: Partial<Script> = await req.json()
 
@@ -54,7 +54,11 @@ export async function POST(req: Request) {
 }
 
 export async function GET() {
-    var scripts = loadScripts()
+    let scripts = loadScripts()
+    let names: Partial<Script>[] = []
 
+    scripts.forEach(function (script:Script) {
+        names.push({"id": script.id, "name": script.name})
+    })
     return NextResponse.json({"length": scripts.length})
 }
