@@ -70,15 +70,19 @@ body {
   margin-right: 20px; 
 }
 
-.custom-buttons button:first-child {
-  background-color: #f6492a;
+.custom-buttons button {
+  background-color: #422af6;
   color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 10px;
   cursor: pointer;
   margin-right: 10px;
+}
+
+.custom-buttons button:first-child {
+  background-color: #f6492a;
 }
 
 .custom-buttons button:first-child:hover {
@@ -87,35 +91,36 @@ body {
 
 .custom-buttons button:nth-child(2) {
   background-color: #008000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-right: 10px;
 }
 
 .custom-buttons button:nth-child(2):hover {
   background-color: #006400;
 }
 
-.custom-buttons button:last-child {
-  background-color: rgb(88, 204, 242);
+.custom-buttons button:nth-child(3) {
+  background-color: #0495c5;
+}
+
+.custom-buttons button:nth-child(3):hover {
+  background-color: #0099cc;
+}
+
+.custom-retrieve-button {
+  background-color: #0583d1; /* Azul */
   color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 10px;
   cursor: pointer;
 }
 
-.custom-buttons button:last-child:hover {
-  background-color: #0583d1;
+.custom-retrieve-button:hover {
+  background-color: #04609a; /* Cambia el color de hover del último botón */
 }
 
 .custom-buttons {
-  margin-left: 23%; 
+  margin-left: 2%;
 }
 
 .arrow {
@@ -148,4 +153,13 @@ body {
   justify-content: center; 
   align-items: center; 
   min-height: 50vh; 
+}
+
+.info-box {
+  background-color: #333; 
+  color: white; 
+  padding: 10px; 
+  border-radius: 5px; 
+  margin-top: 20px; 
+  text-align: center;
 }
