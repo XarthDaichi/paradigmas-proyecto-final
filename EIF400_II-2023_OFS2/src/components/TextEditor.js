@@ -151,10 +151,10 @@ const TextEditor = ({ keywordsList }) => {
     return lineas.length;
   };
 
-  const calcularTotalDePalabras = () => {
-    const palabras = inputText.split(/\s+/);
-    return palabras.length;
-  };
+ const calcularTotalDePalabras = () => {
+  const palabras = inputText.trim().split(/\s+/);
+  return inputText.trim() === '' ? 0 : palabras.length;
+};
 
   const loadAvailableScriptIds = () => {
     fetch(`${API_SERVER_URL}/available-script-ids`, {
