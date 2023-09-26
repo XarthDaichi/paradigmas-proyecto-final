@@ -28,24 +28,40 @@ const About = () => {
     return <div>Cargando...</div>; 
   }
 
+  
+
+  const customStyle = {
+    fontFamily: 'Roboto, sans-serif', // Utiliza la fuente "Roboto" o la que desees
+    fontSize: '18px',
+    lineHeight: '1.5',
+    textAlign: 'justify',
+    color: '#333',
+  };
+
   return (
-    <div>
-      <h1>Información About</h1>
-      <p>Curso: {about.curso}</p>
-      <p>Horario: {about.horario}</p>
-      <p>Grupo: {about.grupo}</p>
-      <p>Escuela: {about.escuela}</p>
-      <p>Universidad: {about.universidad}</p>
-      <h2>Autores:</h2>
-      <ul>
-        {about.autores.map((autor) => (
-          <li key={autor.id}>
-            <p>Nombre: {autor.name}</p>
-            <p>ID: {autor.id}</p>
-            <p>Correo: {autor.correo}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-md-8">
+          <div className="card bg-light">
+            <div className="card-body">
+              <h1 className="text-center" style={customStyle}>One Flow Stream</h1>
+              <p style={customStyle}>{about.introduccion}</p>
+              <p style={customStyle}>Horario: {about.horario}</p>
+              <p style={customStyle}>Grupo: {about.grupo}</p>
+              <h2 className="text-center mb-4" style={customStyle}>Estudiantes</h2>
+              <ul className="list-group">
+                {about.autores.map((autor) => (
+                  <li key={autor.id} className="list-group-item">
+                    <p style={customStyle}>Nombre: {autor.name}</p>
+                    <p style={customStyle}>ID: {autor.id}</p>
+                    <p style={customStyle}>Correo: {autor.correo}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
