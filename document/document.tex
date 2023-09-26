@@ -1,0 +1,100 @@
+% !TEX program = xelatex
+
+\documentclass[11pt, article, natbib]{article}
+% \IEEEoverridecommandlockouts
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{fancyhdr}
+\usepackage{mathtools}
+\usepackage{tikz}
+\usepackage{setspace}
+% \usepackage{apacite}
+\usepackage[backend=biber, style=ieee]{biblatex}
+\addbibresource{ref.bib}
+
+\pagestyle{fancy}
+\fancyhf{\scriptsize Universidad Nacional de Costa Rica}
+\rhead{\thepage}
+\lhead{\scriptsize Proyecto Investigación}
+\rfoot{\scriptsize EIF-412 Paradigmas}
+\lfoot{\scriptsize II-2023}
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\makeatletter
+\renewcommand*\l@section{\@dottedtocline{1}{1.5em}{2.3em}}
+\makeatother
+\begin{document}
+
+\begin{titlepage}
+	\includegraphics[width=0.2\textwidth]{../../../Files/logo-UNA blanco.png}      
+   	\begin{changemargin}{4.5cm}{0cm}
+       	\textbf{\huge Java Concurrency}
+
+       	\vspace{0.2cm}
+       	\LARGE Proyecto de Investigación
+            
+       	\vspace{3cm}
+		\Large
+        Jorge Durán Campos \\
+        Jennifer Lobo Vásquez \\
+        Daniela Madrigal Morales \\
+       	Diego Quirós Artiñano \\
+
+       	\vspace{3cm}
+       
+		EIF-400 Paradigmas de Programación \\
+       	Dr. Carlos Loría Sáenz \\
+
+       	\vfill
+    	
+		\today
+	\end{changemargin}
+\end{titlepage}
+
+\onecolumn
+% Índices
+\pagenumbering{roman}
+    % Contenido
+    \renewcommand{\contentsname}{\large Índice \\ \hrulefill}
+\tableofcontents
+% \setcounter{tocdepth}{2}
+\newpage
+%     Figuras
+%  \renewcommand{\listfigurename}{\large Índice de fíguras \\ \hrulefill}
+%  \listoffigures
+%  \newpage
+     % Tablas
+%  \renewcommand{\listtablename}{\large Índice de tablas \\ \hrulefill}
+%  \listoftables
+%  \newpage
+% Cuerpo
+\pagenumbering{arabic}
+
+% \twocolumn
+% \onehalfspace
+\section{Introducción}
+
+\newpage
+\section{Contexto}
+
+\section{Extracto de las ideas del autor}
+
+\section{Opinión grupal del libro}
+
+\newpage
+\section{Conclusión}
+
+
+\newpage
+\onecolumn
+
+\nocite{temp}
+% \bibliographystyle{apacite} 
+% \bibliography{ref.bib}
+\printbibliography
+
+\end{document}
