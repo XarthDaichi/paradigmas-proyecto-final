@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { readFileSync, writeFileSync } from 'fs'
-import scriptJson from '../../../../scripts.json'
+import { join } from 'path'
 
 export async function OPTIONS(request: Request) {
     const allowedOrigin = request.headers.get("origin");
@@ -20,7 +20,7 @@ export async function OPTIONS(request: Request) {
 
 function loadScripts() {
     try {
-        const scriptData = readFileSync('scripts.json', 'utf8')
+        const scriptData = readFileSync(join(__dirname, '../../../../scripts.json'), 'utf8')
         if (scriptData === '' || scriptData === '{}') return []
 
         var scripts = JSON.parse(scriptData)
@@ -48,7 +48,13 @@ export async function POST(req: Request) {
 
     console.log(scripts)
 
-    writeFileSync('scripts.json', JSON.stringify(scripts))
+    writeFileSync(join(__dirname, '../../../../scripts.json'), JSON.stringify(scripts))
 
     return NextResponse.json({"message": "Script saved"})
+}
+
+export async function GET() {
+    var scripts = loadScripts()
+
+    return NextResponse.json({"length": scripts.length})
 }
