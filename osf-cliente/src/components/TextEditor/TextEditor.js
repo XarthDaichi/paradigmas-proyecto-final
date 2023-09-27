@@ -11,6 +11,7 @@ import { API_SERVER_URL } from "../api/Url";
 const TextEditor = ({ keywordsList }) => {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
+  const [evalText, setEvalText] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSaved, setIsSaved] = useState(false);
@@ -82,6 +83,19 @@ const TextEditor = ({ keywordsList }) => {
         console.error("Error al recuperar scripts del servidor:", error)
       );
   };
+
+  const handleEval = () => {
+    fetch(`${API_SERVER_URL}/eval`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ text: inputText }),
+    })
+      .then((response) => response.json())
+      .then((data) => setEvalText(data.result))
+      .catch((error) => console.error("Error sending data to server:", error));
+  }
 
   const handleScriptSelect = (e) => {
     setSelectedScriptId(e.target.value);
@@ -195,12 +209,14 @@ const TextEditor = ({ keywordsList }) => {
           value={outputText}
         />
         </div>
-        <KeywordChecker text={inputText} />
+        <KeywordChecker text={inputText} 
+        evalRes={evalText} />
         <div className="custom-buttons">
           <button onClick={handleClear}>Clear All</button>
           <button onClick={handleSendToServer}>Send to Server</button>
           <button onClick={handleSaveScript}>Save Script</button>
           <button onClick={handleLoadSelectedScript}>Retrieve Script</button>
+          <button onClick={handleEval}>Evaluate</button>
           <select onChange={handleScriptSelect} value={selectedScriptId}>
             <option value="">Selecciona un script</option>
             {scripts.map((script) => (
