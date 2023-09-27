@@ -20,12 +20,12 @@ export async function OPTIONS(request: Request) {
 
 function loadScripts() {
     try {
-        const scriptData = readFileSync(join(__dirname, '../../../../scripts.json'), 'utf8')
+        console.log('this is the __dirname: ', __dirname)
+        const scriptData = readFileSync(join(__dirname, '../../../../../scripts.json'), 'utf8')
         if (scriptData === '' || scriptData === '{}') return []
 
-        let scripts = JSON.parse(scriptData)
+        return JSON.parse(scriptData)
 
-        return scripts
     } catch (error) {
         console.error('Error loading script: ', error)
         return {}
@@ -47,8 +47,8 @@ export async function POST(req: Request) {
     scripts.push(newScript)
 
     console.log(scripts)
-
-    writeFileSync(join(__dirname, '../../../../scripts.json'), JSON.stringify(scripts))
+    console.log(__dirname)
+    writeFileSync(join(__dirname, '../../../../../scripts.json'), JSON.stringify(scripts))
 
     return NextResponse.json({"message": "Script saved"})
 }
@@ -60,5 +60,5 @@ export async function GET() {
     scripts.forEach(function (script:Script) {
         names.push({"id": script.id, "name": script.name})
     })
-    return NextResponse.json({"length": scripts.length})
+    return NextResponse.json(names)
 }
