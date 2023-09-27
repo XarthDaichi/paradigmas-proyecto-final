@@ -46,6 +46,7 @@ const TextEditor = ({ keywordsList }) => {
     setInputText(newText);
     setOutputText(processedText);
   };
+
   const handleRetrieveScript = () => {
     fetch(`${API_SERVER_URL}/script`, {
       method: 'GET',
@@ -55,23 +56,24 @@ const TextEditor = ({ keywordsList }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setScripts(data); // Actualiza el estado con los scripts recuperados
+        setScripts(data);
       })
       .catch((error) => console.error('Error al recuperar scripts del servidor:', error));
   };
 
-  const handleScriptSelect = (e) => {
-    const selectedId = e.target.value;
-    setSelectedScriptId(selectedId);
-  
-    // Puedes encontrar el script seleccionado en el array de scripts
-    const selectedScript = scripts.find((script) => script.id === selectedId);
+  const handleLoadSelectedScript = () => {
+    // Encuentra el script seleccionado en la lista de scripts
+    const selectedScript = scripts.find((script) => script.id === selectedScriptId);
   
     // Si se encuentra el script, puedes establecerlo en el área de texto
     if (selectedScript) {
       setInputText(selectedScript.text);
       setOutputText(''); // Puedes borrar el texto de salida si lo deseas
     }
+  };
+
+  const handleScriptSelect = (e) => {
+    setSelectedScriptId(e.target.value);
   };
   
 
@@ -90,11 +92,6 @@ const TextEditor = ({ keywordsList }) => {
 
   const handleSaveScript = () => {
     setIsPopupOpen(true);
-  };
-
-  const handleScriptIdChange = (e) => {
-    setScriptId(e.target.value);
-    setErrorMessage('');
   };
 
  const handleSaveScriptPopup = (scriptName) => {
@@ -163,6 +160,7 @@ const TextEditor = ({ keywordsList }) => {
   useEffect(() => {
     const totalLineas = calcularTotalDeLineas();
     const totalPalabras = calcularTotalDePalabras();
+    handleRetrieveScript();
 
   }, [inputText]);
 
@@ -189,7 +187,7 @@ const TextEditor = ({ keywordsList }) => {
           <button onClick={handleClear}>Clear All</button>
           <button onClick={handleSendToServer}>Send to Server</button>
           <button onClick={handleSaveScript}>Save Script</button>
-          <button onClick={handleRetrieveScript}>Recuperar Script</button>
+          <button onClick={handleLoadSelectedScript}>Retrieve Script</button>
           <select onChange={handleScriptSelect} value={selectedScriptId}>
             <option value="">Selecciona un script</option>
             {scripts.map((script) => (
