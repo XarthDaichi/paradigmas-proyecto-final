@@ -20,7 +20,7 @@ export async function OPTIONS(request: Request) {
 
 async function loadScripts() {
     try {
-        const scriptDataResponse = await fetch(`FS_URL?file=sciprts.json`)
+        const scriptDataResponse = await fetch(`${FS_URL}?file=sciprts.json`)
         const scriptData = await scriptDataResponse.json()
         if (scriptData === '' || scriptData === '{}') return []
 
