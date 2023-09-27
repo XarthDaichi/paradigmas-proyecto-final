@@ -90,7 +90,7 @@ const TextEditor = ({ keywordsList }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: inputText }),
+      body: JSON.stringify({ text: outputText }),
     })
       .then((response) => response.json())
       .then((data) => setEvalText(data.result))
@@ -107,10 +107,10 @@ const TextEditor = ({ keywordsList }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: inputText }),
+      body: JSON.stringify({ name: scriptName, text: inputText }),
     })
       .then((response) => response.json())
-      .then((data) => setOutputText(data.result))
+      .then((data) => {console.log(data.result); setOutputText(`${data.result.timestamp}\nNombre: ${data.result.name}\n${data.result.text}`)})
       .catch((error) => console.error("Error sending data to server:", error));
   };
 
