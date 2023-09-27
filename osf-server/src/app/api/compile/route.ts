@@ -23,6 +23,6 @@ export async function POST(req: Request) {
 
   const transpiledScript: TranspiledScript = {timestamp: new Date().toISOString(), text: text, name: name}
   // const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${text} \n Nombre: ${name}.json`
-  // console.log(timeStampedText)
+  console.log(transpiledScript)
   return NextResponse.json({result: JSON.stringify(transpiledScript)})
 }
