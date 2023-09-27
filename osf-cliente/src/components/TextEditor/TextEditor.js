@@ -82,7 +82,7 @@ const TextEditor = ({ keywordsList }) => {
   
 
   const handleSendToServer = () => {
-    fetch(`${API_SERVER_URL}/process`, {
+    fetch(`${API_SERVER_URL}/compile`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
