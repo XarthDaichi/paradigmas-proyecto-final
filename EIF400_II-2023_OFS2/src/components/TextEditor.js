@@ -61,9 +61,8 @@ const TextEditor = ({ keywordsList }) => {
   };
 
   const handleLoadSelectedScript = () => {
-    // Encuentra el script seleccionado en la lista de scripts
     const selectedScript = scripts.find((script) => script.id === selectedScriptId);
-  
+
     // Si se encuentra el script, puedes establecerlo en el área de texto
     if (selectedScript) {
       setInputText(selectedScript.text);
@@ -212,20 +211,3 @@ const TextEditor = ({ keywordsList }) => {
 };
 
 export default TextEditor;
-
-/*
-
-<button onClick={handleRetrieveScript}>Retrieve Script</button>
-          <label>Select Script ID:</label>
-                    <select
-                      value={scriptId}
-                      onChange={handleScriptIdChange}
-                    >
-                      <option value="">Select an ID</option>
-                      {availableScriptIds.map((script) => (
-                       <option key={script.id} value={script.id}>
-                       {script.name} (ID: {script.id})
-                     </option>
-                      ))}
-                    </select>
-*/
