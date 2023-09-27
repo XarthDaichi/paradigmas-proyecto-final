@@ -26,16 +26,18 @@ export async function GET(request: Request) {
 }
 
 export async function PUT(request: Request) {
-    const { id, name }: Partial<Script> = await request.json()
+    const { id, name, text }: Script = await request.json()
 
     if (!id) return NextResponse.json({"message": "Missing script id"})
     if (!name) return NextResponse.json({"message": "Missing script name"})
+    if (!text) return NextResponse.json({"message": "Missing script text"})
 
     let scripts: Script[] = loadScripts()
 
     if (id > scripts.length - 1) return NextResponse.json({"message": "Invalid script id"})
 
     scripts[id-1].name = name
+    scripts[id-1].text = text
     writeFileSync(join(__dirname, '../../../../../../scripts.json'), JSON.stringify(scripts))
 
     return NextResponse.json({"message": "Name successfully changed"})
