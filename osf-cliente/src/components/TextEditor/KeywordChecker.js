@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 
 import {API_SERVER_URL} from '../api/Url';
 
-const KeywordChecker = ({ text }) => {
+const KeywordChecker = ({ text, evalRes }) => {
   const [isKeyword, setIsKeyword] = useState(false);
 
   useEffect(() => {
@@ -17,7 +17,8 @@ const KeywordChecker = ({ text }) => {
     <div>
       <div className="console-box"> 
         <p>
-          {text} is a keyword: <span className={isKeyword ? 'keyword' : ''}>{isKeyword.toString()}</span> 
+          {text} is a keyword: <span className={isKeyword ? 'keyword' : ''}>{isKeyword.toString()}</span><br></br>
+          {evalRes}
         </p>
       </div>
     </div>
