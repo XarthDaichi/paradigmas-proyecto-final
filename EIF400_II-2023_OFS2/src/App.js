@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import TextEditor from './components/TextEditor';
+import TextEditor from './components/TextEditor/TextEditor';
 import Header from './components/Header';
-import About from './components/About'; 
+import About from './components/about/About'; 
 
-import { API_SERVER_URL } from './components/Url';
+import { API_SERVER_URL } from './components/api/Url';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
 
 function App() {

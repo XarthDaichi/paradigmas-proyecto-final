@@ -1,13 +1,13 @@
 import React, { useState, useEffect  } from 'react';
 
-import '../App.css';
+import '../../App.css';
 
 import KeywordChecker from './KeywordChecker'; 
 import ScriptPopup from './ScriptPopup';
 import TextStats from './TextStats'; 
 
 
-import {API_SERVER_URL} from './Url';
+import {API_SERVER_URL} from '../api/Url';
 
 
 const TextEditor = ({ keywordsList }) => {

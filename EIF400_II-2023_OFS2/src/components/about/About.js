@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_SERVER_URL } from './Url';
+import { API_SERVER_URL } from '../api/Url';
 
 const About = () => {
   const [about, setAbout] = useState(null);
