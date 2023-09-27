@@ -107,7 +107,7 @@ const TextEditor = ({ keywordsList }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: inputText }),
+      body: JSON.stringify({ name: scriptName, text: inputText }),
     })
       .then((response) => response.json())
       .then((data) => setOutputText(data.result))
