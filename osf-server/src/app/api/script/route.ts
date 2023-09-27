@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
     scripts.push(newScript)
 
-    const res = await fetch(FS_URL, {
+    const res = await fetch(`${FS_URL}/script`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application.json'

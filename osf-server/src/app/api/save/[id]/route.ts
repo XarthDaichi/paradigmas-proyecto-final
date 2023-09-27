@@ -29,7 +29,7 @@ export async function POST(request: Request) {
 
     scripts[id-1].name = name
     scripts[id-1].text = text
-    const res = await fetch(FS_URL, {
+    const res = await fetch(`${FS_URL}/script`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application.json'

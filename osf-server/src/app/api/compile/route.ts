@@ -16,9 +16,13 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-    const { text }: Partial<Script> = await req.json()
+  const { name, text }: Partial<Script> = await req.json()
 
-    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: ${text}`
-    console.log(timeStampedText)
-    return NextResponse.json({ result: timeStampedText })
+  if (!text) return NextResponse.json({"message": "Missing script text"})
+  if (!name) return NextResponse.json({"message": "Missing script text"})
+
+  const transpiledScript: TranspiledScript = {timestamp: new Date().toISOString(), text: text, name: name}
+  const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${text} \n Nombre: ${name}.json`
+  console.log(timeStampedText)
+  return NextResponse.json({result: JSON.stringify(transpiledScript)})
 }

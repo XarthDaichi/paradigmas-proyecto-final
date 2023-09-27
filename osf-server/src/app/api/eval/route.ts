@@ -16,9 +16,9 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-    const { text }: Partial<Script> = await req.json()
+    const { timestamp, name, text }: TranspiledScript = await req.json()
 
-    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: ${text}`
+    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${text} \n Nombre: ${name}.json`
     console.log(timeStampedText)
     return NextResponse.json({ result: timeStampedText })
 }
