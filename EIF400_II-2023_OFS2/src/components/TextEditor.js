@@ -4,7 +4,6 @@ import '../App.css';
 
 import KeywordChecker from './KeywordChecker'; 
 import ScriptPopup from './ScriptPopup';
-//import LineNumbersTextArea from './LineNumbersTextArea';
 import TextStats from './TextStats'; 
 
 
@@ -19,8 +18,9 @@ const TextEditor = ({ keywordsList }) => {
   const [isSaved, setIsSaved] = useState(false); 
   const [scriptName, setScriptName] = useState('');
   const [scriptId, setScriptId] = useState('');
-  const [availableScriptIds, setAvailableScriptIds] = useState([]);
   const [currentLineNumber, setCurrentLineNumber] = useState(1);
+  const [scripts, setScripts] = useState([]); // Para almacenar los scripts recuperados
+  const [selectedScriptId, setSelectedScriptId] = useState(''); // Para el ID del script seleccionado
 
   const handleClear = () => {
     const confirmed = window.confirm('Are you sure you want to clear the text?');
@@ -29,34 +29,6 @@ const TextEditor = ({ keywordsList }) => {
       setOutputText('');
       setIsSaved(false); 
     }
-  };
-  const handleRetrieveScript = () => {
-    if (!scriptId.trim()) {
-      setErrorMessage('Please enter a valid Script ID');
-      return;
-    }
-  
-    // Realiza la solicitud al servidor para recuperar el script con el ID proporcionado
-    fetch(`${API_SERVER_URL}/script/${scriptId}`, {
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.message) {
-          setErrorMessage(data.message);
-        } else {
-          // Actualiza el estado de inputText y scriptName con los datos recuperados
-          setInputText(data.text);
-          setScriptName(data.name);
-          setIsSaved(true);
-          setErrorMessage(''); // Limpia el mensaje de error en caso de éxito
-          setOutputText(''); // Limpia el texto de salida
-        }
-      })
-      .catch((error) => {
-        console.error('Error retrieving script from server:', error);
-        setErrorMessage('Error retrieving script. Please try again later.');
-      });
   };
 
   const handleInputChange = (e) => {
@@ -74,6 +46,34 @@ const TextEditor = ({ keywordsList }) => {
     setInputText(newText);
     setOutputText(processedText);
   };
+  const handleRetrieveScript = () => {
+    fetch(`${API_SERVER_URL}/script`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setScripts(data); // Actualiza el estado con los scripts recuperados
+      })
+      .catch((error) => console.error('Error al recuperar scripts del servidor:', error));
+  };
+
+  const handleScriptSelect = (e) => {
+    const selectedId = e.target.value;
+    setSelectedScriptId(selectedId);
+  
+    // Puedes encontrar el script seleccionado en el array de scripts
+    const selectedScript = scripts.find((script) => script.id === selectedId);
+  
+    // Si se encuentra el script, puedes establecerlo en el área de texto
+    if (selectedScript) {
+      setInputText(selectedScript.text);
+      setOutputText(''); // Puedes borrar el texto de salida si lo deseas
+    }
+  };
+  
 
   const handleSendToServer = () => {
     fetch(`${API_SERVER_URL}/process`, {
@@ -158,26 +158,11 @@ const TextEditor = ({ keywordsList }) => {
   const palabras = inputText.trim().split(/\s+/);
   return inputText.trim() === '' ? 0 : palabras.length;
 };
-
-  const loadAvailableScriptIds = () => {
-    fetch(`${API_SERVER_URL}/available-script-ids`, {
-      method: 'GET',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Available Script IDs:', data); // Agrega esta línea
-        setAvailableScriptIds(data.availableIds);
-      })
-      .catch((error) => {
-        console.error('Error loading available script IDs:', error);
-      });
-  };
   
 
   useEffect(() => {
     const totalLineas = calcularTotalDeLineas();
     const totalPalabras = calcularTotalDePalabras();
-    loadAvailableScriptIds();
 
   }, [inputText]);
 
@@ -204,20 +189,15 @@ const TextEditor = ({ keywordsList }) => {
           <button onClick={handleClear}>Clear All</button>
           <button onClick={handleSendToServer}>Send to Server</button>
           <button onClick={handleSaveScript}>Save Script</button>
-          <button onClick={handleRetrieveScript}>Retrieve Script</button>
-          <label>Select Script ID:</label>
-                    <select
-                      value={scriptId}
-                      onChange={handleScriptIdChange}
-                    >
-                      <option value="">Select an ID</option>
-                      {availableScriptIds.map((id) => (
-                        <option key={id} value={id}>
-                          {id}
-                        </option>
-                      ))}
-                    </select>
-          
+          <button onClick={handleRetrieveScript}>Recuperar Script</button>
+          <select onChange={handleScriptSelect} value={selectedScriptId}>
+            <option value="">Selecciona un script</option>
+            {scripts.map((script) => (
+              <option key={script.id} value={script.id}>
+                {script.name}
+              </option>
+            ))}
+          </select>
           </div>
         {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} />}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
@@ -238,3 +218,20 @@ const TextEditor = ({ keywordsList }) => {
 };
 
 export default TextEditor;
+
+/*
+
+<button onClick={handleRetrieveScript}>Retrieve Script</button>
+          <label>Select Script ID:</label>
+                    <select
+                      value={scriptId}
+                      onChange={handleScriptIdChange}
+                    >
+                      <option value="">Select an ID</option>
+                      {availableScriptIds.map((script) => (
+                       <option key={script.id} value={script.id}>
+                       {script.name} (ID: {script.id})
+                     </option>
+                      ))}
+                    </select>
+*/
