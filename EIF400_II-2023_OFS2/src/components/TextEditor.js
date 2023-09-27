@@ -17,7 +17,6 @@ const TextEditor = ({ keywordsList }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isSaved, setIsSaved] = useState(false); 
   const [scriptName, setScriptName] = useState('');
-  const [scriptId, setScriptId] = useState('');
   const [currentLineNumber, setCurrentLineNumber] = useState(1);
   const [scripts, setScripts] = useState([]); // Para almacenar los scripts recuperados
   const [selectedScriptId, setSelectedScriptId] = useState(''); // Para el ID del script seleccionado
@@ -158,10 +157,7 @@ const TextEditor = ({ keywordsList }) => {
   
 
   useEffect(() => {
-    const totalLineas = calcularTotalDeLineas();
-    const totalPalabras = calcularTotalDePalabras();
     handleRetrieveScript();
-
   }, [inputText]);
 
   return (
