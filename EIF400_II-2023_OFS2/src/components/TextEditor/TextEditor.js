@@ -165,9 +165,16 @@ const TextEditor = ({ keywordsList }) => {
     handleRetrieveScript();
   }, [inputText]);
 
+  const lineNumbers = inputText.split('\n').map((_, index) => (
+    <div key={index} className="line-number">
+      {index + 1}
+    </div>
+  ));
+
   return (
     <div className="center-container">
       <div className="custom-container">
+      <div className="line-numbers">{lineNumbers}</div>
         <textarea
           id="TI"
           className="custom-textarea"

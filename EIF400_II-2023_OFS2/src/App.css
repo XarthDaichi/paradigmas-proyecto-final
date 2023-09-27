@@ -9,6 +9,7 @@
   border-radius: 5px;
   align-items: center;
 }
+
 .bg-black {
     background-color: black;
 }
@@ -162,4 +163,18 @@ body {
   border-radius: 5px; 
   margin-top: 20px; 
   text-align: center;
+}
+
+.line-numbers {
+  width: 30px; /* Ancho de los números de línea */
+  padding: 10px; /* Espaciado entre los números y el contenido */
+  text-align: right; /* Alinea los números a la derecha */
+  user-select: none; /* Evita que los números se seleccionen */
+  background-color: #f0f0f0; /* Color de fondo de los números de línea */
+  border-right: 1px solid #ccc; /* Línea vertical a la derecha de los números */
+  margin-bottom: 10px;
+}
+.textarea-container {
+  display: flex;
+  align-items: center;
 }
