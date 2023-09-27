@@ -21,7 +21,7 @@ export async function GET(request: Request) {
     const scripts: Script[] = loadScripts()
     const script: Script = pos < scripts.length ? scripts[pos] : {id: -1, text: '', name: ''}
     if (script.id === -1) return NextResponse.json({"message": `Error gathering script id: ${pos + 1}`})
-
+    // console.log(script)
     return NextResponse.json(script)
 }
 

@@ -57,17 +57,23 @@ const TextEditor = ({ keywordsList }) => {
       .then((data) => {
         setScripts(data);
       })
-      .catch((error) => console.error('Error al recuperar scripts del servidor:', error));
+      .catch((error) => console.error('Error al recuperar nombres de scripts del servidor:', error));
   };
 
   const handleLoadSelectedScript = () => {
-    const selectedScript = scripts.find((script) => script.id === selectedScriptId);
-
-    // Si se encuentra el script, puedes establecerlo en el área de texto
-    if (selectedScript) {
-      setInputText(selectedScript.text);
-      setOutputText(''); // Puedes borrar el texto de salida si lo deseas
-    }
+    fetch(`${API_SERVER_URL}/script/${selectedScriptId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setInputText(data.text);
+        setOutputText(''); // Borrar el OutputText si quiere
+      })
+      .catch((error) => console.error('Error al recuperar scripts del servidor:', error))
   };
 
   const handleScriptSelect = (e) => {
