@@ -90,7 +90,7 @@ const TextEditor = ({ keywordsList }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: inputText }),
+      body: JSON.stringify({ text: outputText }),
     })
       .then((response) => response.json())
       .then((data) => setEvalText(data.result))
