@@ -5,7 +5,6 @@ import scriptJson from '../../../../../scripts.json'
 
 function loadScripts() {
     try {
-        console.log('this is the __dirname: ', join(__dirname, '../../../../../../scripts.json'))
         const scriptData = readFileSync(join(__dirname, '../../../../../../scripts.json'), 'utf8')
         if (scriptData === '' || scriptData === '{}') return []
 
