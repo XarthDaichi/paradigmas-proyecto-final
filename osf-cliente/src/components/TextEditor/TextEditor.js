@@ -1,32 +1,32 @@
-import React, { useState, useEffect  } from 'react';
+import React, { useState, useEffect } from "react";
 
-import '../../App.css';
+import "../../App.css";
 
-import KeywordChecker from './KeywordChecker'; 
-import ScriptPopup from './ScriptPopup';
-import TextStats from './TextStats'; 
+import KeywordChecker from "./KeywordChecker";
+import ScriptPopup from "./ScriptPopup";
+import TextStats from "./TextStats";
 
-
-import {API_SERVER_URL} from '../api/Url';
-
+import { API_SERVER_URL } from "../api/Url";
 
 const TextEditor = ({ keywordsList }) => {
-  const [inputText, setInputText] = useState('');
-  const [outputText, setOutputText] = useState('');
+  const [inputText, setInputText] = useState("");
+  const [outputText, setOutputText] = useState("");
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-  const [isSaved, setIsSaved] = useState(false); 
-  const [scriptName, setScriptName] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isSaved, setIsSaved] = useState(false);
+  const [scriptName, setScriptName] = useState("");
   const [currentLineNumber, setCurrentLineNumber] = useState(1);
-  const [scripts, setScripts] = useState([]); 
-  const [selectedScriptId, setSelectedScriptId] = useState(''); 
+  const [scripts, setScripts] = useState([]);
+  const [selectedScriptId, setSelectedScriptId] = useState("");
 
   const handleClear = () => {
-    const confirmed = window.confirm('Are you sure you want to clear the text?');
+    const confirmed = window.confirm(
+      "Are you sure you want to clear the text?"
+    );
     if (confirmed) {
-      setInputText('');
-      setOutputText('');
-      setIsSaved(false); 
+      setInputText("");
+      setOutputText("");
+      setIsSaved(false);
     }
   };
 
@@ -34,7 +34,7 @@ const TextEditor = ({ keywordsList }) => {
     const newText = e.target.value;
     const words = newText.split(/\s+/);
 
-    let processedText = '';
+    let processedText = "";
     for (let word of words) {
       const trimmedWord = word.trim();
       if (keywordsList.includes(trimmedWord)) {
@@ -48,86 +48,90 @@ const TextEditor = ({ keywordsList }) => {
 
   const handleRetrieveScript = () => {
     fetch(`${API_SERVER_URL}/script`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
     })
       .then((response) => response.json())
       .then((data) => {
         setScripts(data);
       })
-      .catch((error) => console.error('Error al recuperar nombres de scripts del servidor:', error));
+      .catch((error) =>
+        console.error(
+          "Error al recuperar nombres de scripts del servidor:",
+          error
+        )
+      );
   };
 
   const handleLoadSelectedScript = () => {
     fetch(`${API_SERVER_URL}/script/${selectedScriptId}`, {
-      method: 'GET',
+      method: "GET",
       headers: {
-        'Content-Type': 'application/json',
-      }
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         setInputText(data.text);
-        setOutputText(''); // Borrar el OutputText si quiere
+        setOutputText(""); // Borrar el OutputText si quiere
       })
-      .catch((error) => console.error('Error al recuperar scripts del servidor:', error))
+      .catch((error) =>
+        console.error("Error al recuperar scripts del servidor:", error)
+      );
   };
 
   const handleScriptSelect = (e) => {
     setSelectedScriptId(e.target.value);
   };
-  
 
   const handleSendToServer = () => {
     fetch(`${API_SERVER_URL}/compile`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({ text: inputText }),
     })
       .then((response) => response.json())
       .then((data) => setOutputText(data.result))
-      .catch((error) => console.error('Error sending data to server:', error));
+      .catch((error) => console.error("Error sending data to server:", error));
   };
 
   const handleSaveScript = () => {
     setIsPopupOpen(true);
   };
 
- const handleSaveScriptPopup = (scriptName) => {
-    if (scriptName.trim() === '') {
-      setErrorMessage('El nombre del script no puede estar vacío');
+  const handleSaveScriptPopup = (scriptName) => {
+    if (scriptName.trim() === "") {
+      setErrorMessage("El nombre del script no puede estar vacío");
       return;
     }
 
-    if (inputText.trim() === '') {
-      setErrorMessage('El contenido del script no puede estar vacío');
+    if (inputText.trim() === "") {
+      setErrorMessage("El contenido del script no puede estar vacío");
       return;
     }
 
     const newScript = {
-      "name": scriptName,
-      "text": inputText,
+      name: scriptName,
+      text: inputText,
     };
 
-    console.log('Saving new script:', newScript);
+    console.log("Saving new script:", newScript);
 
     setScriptName(scriptName);
 
-    setInputText('');
+    setInputText("");
     setIsPopupOpen(false);
-    setErrorMessage('');
-
-     
+    setErrorMessage("");
 
     fetch(`${API_SERVER_URL}/script`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(newScript),
     })
@@ -135,37 +139,36 @@ const TextEditor = ({ keywordsList }) => {
       .then((data) => {
         setOutputText(data.message);
         setIsPopupOpen(false);
-        setIsSaved(true); 
-        setErrorMessage('');
+        setIsSaved(true);
+        setErrorMessage("");
       })
-      .catch((error) => console.error('Error sending data to server:', error));
+      .catch((error) => console.error("Error sending data to server:", error));
   };
-  
+
   const handleKeyDown = (e) => {
     const currentCursorPosition = e.target.selectionStart;
     const textBeforeCursor = inputText.substring(0, currentCursorPosition);
-    const lines = textBeforeCursor.split('\n');
+    const lines = textBeforeCursor.split("\n");
     const currentLine = lines.length;
-  
+
     setCurrentLineNumber(currentLine);
   };
 
   const calcularTotalDeLineas = () => {
-    const lineas = inputText.split('\n');
+    const lineas = inputText.split("\n");
     return lineas.length;
   };
 
- const calcularTotalDePalabras = () => {
-  const palabras = inputText.trim().split(/\s+/);
-  return inputText.trim() === '' ? 0 : palabras.length;
-};
-  
+  const calcularTotalDePalabras = () => {
+    const palabras = inputText.trim().split(/\s+/);
+    return inputText.trim() === "" ? 0 : palabras.length;
+  };
 
   useEffect(() => {
     handleRetrieveScript();
   }, [inputText]);
 
-  const lineNumbers = inputText.split('\n').map((_, index) => (
+  const lineNumbers = inputText.split("\n").map((_, index) => (
     <div key={index} className="line-number">
       {index + 1}
     </div>
@@ -174,8 +177,9 @@ const TextEditor = ({ keywordsList }) => {
   return (
     <div className="center-container">
       <div className="custom-container">
-      <div className="line-numbers">{lineNumbers}</div>
-        <textarea
+        <div className="text-editor">
+          <div className="line-numbers">{lineNumbers}</div>
+          <textarea
           id="TI"
           className="custom-textarea"
           value={inputText}
@@ -190,6 +194,7 @@ const TextEditor = ({ keywordsList }) => {
           readOnly
           value={outputText}
         />
+        </div>
         <KeywordChecker text={inputText} />
         <div className="custom-buttons">
           <button onClick={handleClear}>Clear All</button>
@@ -204,12 +209,12 @@ const TextEditor = ({ keywordsList }) => {
               </option>
             ))}
           </select>
-          </div>
+        </div>
         {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} />}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
-        
+
         <div className="info-box">
-        <TextStats
+          <TextStats
             filename={scriptName}
             currentLine={currentLineNumber}
             totalLines={calcularTotalDeLineas()}
@@ -217,10 +222,9 @@ const TextEditor = ({ keywordsList }) => {
             isSaved={isSaved}
           />
         </div>
-        </div>
       </div>
-      );
-  
+    </div>
+  );
 };
 
 export default TextEditor;

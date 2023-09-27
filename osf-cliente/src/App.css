@@ -1,13 +1,10 @@
 .custom-textarea { 
-  width: 300px;    /* Specify your desired width */
-  height: 150px;   /* Specify your desired height */
+  flex: 1; /* El cuadro de texto ocupa todo el espacio restante */
+  min-height: 100px; /* Altura mínima del cuadro de texto */
   padding: 10px;
-  margin-bottom: 10px;
-  border: 3px solid #ccc;
-  border-radius: 0px;
-  align-items: center;
-  overflow-y: hidden; /* Hide the vertical scrollbar */
-  resize: vertical; /* Allow vertical resizing */
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: none; /* Evita que el usuario pueda redimensionar el cuadro de texto */
 }
 
 .bg-black {
@@ -23,6 +20,11 @@
   align-items: center;
   margin: 50px;
 
+}
+
+.text-editor {
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .custom-buttons{
