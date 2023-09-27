@@ -60,5 +60,5 @@ export async function GET() {
     scripts.forEach(function (script:Script) {
         names.push({"id": script.id, "name": script.name})
     })
-    return NextResponse.json({"length": scripts.length})
+    return NextResponse.json(names)
 }
