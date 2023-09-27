@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
-import keywordsJson from '../../../../keywords.json'
+
+const FS_URL = "http://localhost:3000/api/fs"
 
 
 export async function GET() {
-    return NextResponse.json({keywords: keywordsJson})
+    const res = await fetch(`${FS_URL}?file=keywords.json`)
+    return NextResponse.json({keywords: await res.json()})
 }

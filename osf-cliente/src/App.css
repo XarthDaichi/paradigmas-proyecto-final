@@ -1,14 +1,12 @@
-.custom-textarea {
-  
-  width: 300px;    /* Specify your desired width */
-  height: 150px;   /* Specify your desired height */
-  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+.custom-textarea { 
+  flex: 1; /* El cuadro de texto ocupa todo el espacio restante */
+  min-height: 100px; /* Altura mínima del cuadro de texto */
   padding: 10px;
-  margin-bottom: 10px;
-  border: 3px solid #ccc;
-  border-radius: 5px;
-  align-items: center;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  resize: none; /* Evita que el usuario pueda redimensionar el cuadro de texto */
 }
+
 .bg-black {
     background-color: black;
 }
@@ -22,6 +20,11 @@
   align-items: center;
   margin: 50px;
 
+}
+
+.text-editor {
+  display: flex;
+  margin-bottom: 10px;
 }
 
 .custom-buttons{
@@ -70,15 +73,19 @@ body {
   margin-right: 20px; 
 }
 
-.custom-buttons button:first-child {
-  background-color: #f6492a;
+.custom-buttons button {
+  background-color: #422af6;
   color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 10px;
   cursor: pointer;
   margin-right: 10px;
+}
+
+.custom-buttons button:first-child {
+  background-color: #f6492a;
 }
 
 .custom-buttons button:first-child:hover {
@@ -87,35 +94,36 @@ body {
 
 .custom-buttons button:nth-child(2) {
   background-color: #008000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  font-size: 16px;
-  cursor: pointer;
-  margin-right: 10px;
 }
 
 .custom-buttons button:nth-child(2):hover {
   background-color: #006400;
 }
 
-.custom-buttons button:last-child {
-  background-color: rgb(88, 204, 242);
+.custom-buttons button:nth-child(3) {
+  background-color: #0495c5;
+}
+
+.custom-buttons button:nth-child(3):hover {
+  background-color: #0099cc;
+}
+
+.custom-retrieve-button {
+  background-color: #0583d1; /* Azul */
   color: white;
   border: none;
   border-radius: 5px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 10px;
   cursor: pointer;
 }
 
-.custom-buttons button:last-child:hover {
-  background-color: #0583d1;
+.custom-retrieve-button:hover {
+  background-color: #04609a; /* Cambia el color de hover del último botón */
 }
 
 .custom-buttons {
-  margin-left: 23%; 
+  margin-left: 2%;
 }
 
 .arrow {
@@ -149,3 +157,24 @@ body {
   align-items: center; 
   min-height: 50vh; 
 }
+
+.info-box {
+  background-color: #333; 
+  color: white; 
+  padding: 10px; 
+  border-radius: 5px; 
+  margin-top: 20px; 
+  text-align: center;
+}
+
+.line-numbers {
+  width: 30px; /* Ancho de los números de línea */
+  padding: 10px; /* Espaciado entre los números y el contenido */
+  text-align: right; /* Alinea los números a la derecha */
+  user-select: none; /* Evita que los números se seleccionen */
+  background-color: #f0f0f0; /* Color de fondo de los números de línea */
+  border-right: 1px solid #ccc; /* Línea vertical a la derecha de los números */
+  margin-bottom: 10px;
+  display: inline-block;
+}
+

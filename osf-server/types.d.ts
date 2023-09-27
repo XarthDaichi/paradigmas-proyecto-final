@@ -3,3 +3,9 @@ type Script = {
     name: string,
     text: string
 }
+
+type TranspiledScript = {
+    timestamp: string,
+    text: string,
+    name: string
+}

@@ -1,28 +1,26 @@
 import { NextResponse } from 'next/server'
-import { readFileSync, writeFileSync } from 'fs'
-import { join } from 'path'
-import scriptJson from '../../../../../scripts.json'
 
-// const loadScripts = () => {
-//     const scriptData = readFileSync(join(__dirname, '../../../../../scripts.json'), 'utf8')
-//     try {
-//         if (scriptData === '' || scriptData === '{}') return []
+const FS_URL = "http://localhost:3000/api/fs"
 
-//         var scripts = JSON.parse(scriptData)
+async function loadScripts() {
+    try {
+        const scriptDataResponse = await fetch(`${FS_URL}?file=scripts.json`)
+        const scriptData = await scriptDataResponse.json()
+        if (scriptData === '' || scriptData === '{}') return []
 
-//         return scripts
-//     } catch (error) {
-//         console.error('Error loading script: ', error)
-//         return {}
-//     }
-// }
+        return scriptData
+
+    } catch (error) {
+        console.error('Error loading script: ', error)
+        return {}
+    }
+}
 
 export async function GET(request: Request) {
-    const id: number = Number(request.url.slice(request.url.lastIndexOf('/') + 1)) - 1
-    debugger;
-    const script: Script = id < scriptJson.length ? scriptJson[id] : {id: -1, text: '', name: ''}
-
-    if (script.id === -1) return NextResponse.json({"message": `Error gathering script id: ${id + 1}`})
-
+    const pos: number = Number(request.url.slice(request.url.lastIndexOf('/') + 1)) - 1
+    const scripts: Script[] = await loadScripts()
+    const script: Script = pos < scripts.length ? scripts[pos] : {id: -1, text: '', name: ''}
+    if (script.id === -1) return NextResponse.json({"message": `Error gathering script id: ${pos + 1}`})
+    // console.log(script)
     return NextResponse.json(script)
 }
