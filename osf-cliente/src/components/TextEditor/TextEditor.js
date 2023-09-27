@@ -110,7 +110,7 @@ const TextEditor = ({ keywordsList }) => {
       body: JSON.stringify({ name: scriptName, text: inputText }),
     })
       .then((response) => response.json())
-      .then((data) => setOutputText(`${data.result.timestamp}\n${data.result.name}:\n${data.result.text}`))
+      .then((data) => {console.log(data.result); setOutputText(`${data.result.timestamp}\nNombre: ${data.result.name}\n${data.result.text}`)})
       .catch((error) => console.error("Error sending data to server:", error));
   };
 
