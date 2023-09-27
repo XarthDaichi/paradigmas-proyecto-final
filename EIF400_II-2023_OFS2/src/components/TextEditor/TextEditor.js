@@ -18,8 +18,8 @@ const TextEditor = ({ keywordsList }) => {
   const [isSaved, setIsSaved] = useState(false); 
   const [scriptName, setScriptName] = useState('');
   const [currentLineNumber, setCurrentLineNumber] = useState(1);
-  const [scripts, setScripts] = useState([]); // Para almacenar los scripts recuperados
-  const [selectedScriptId, setSelectedScriptId] = useState(''); // Para el ID del script seleccionado
+  const [scripts, setScripts] = useState([]); 
+  const [selectedScriptId, setSelectedScriptId] = useState(''); 
 
   const handleClear = () => {
     const confirmed = window.confirm('Are you sure you want to clear the text?');
