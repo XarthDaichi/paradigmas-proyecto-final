@@ -20,7 +20,6 @@ export async function OPTIONS(request: Request) {
 
 function loadScripts() {
     try {
-        console.log('this is the __dirname: ', __dirname)
         const scriptData = readFileSync(join(__dirname, '../../../../../scripts.json'), 'utf8')
         if (scriptData === '' || scriptData === '{}') return []
 
@@ -46,8 +45,6 @@ export async function POST(req: Request) {
 
     scripts.push(newScript)
 
-    console.log(scripts)
-    console.log(__dirname)
     writeFileSync(join(__dirname, '../../../../../scripts.json'), JSON.stringify(scripts))
 
     return NextResponse.json({"message": "Script saved"})
