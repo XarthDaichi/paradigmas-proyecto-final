@@ -20,11 +20,11 @@ export async function OPTIONS(request: Request) {
 
 async function loadScripts() {
     try {
-        const scriptDataResponse = await fetch(`${FS_URL}?file=sciprts.json`)
+        const scriptDataResponse = await fetch(`${FS_URL}?file=scripts.json`)
         const scriptData = await scriptDataResponse.json()
         if (scriptData === '' || scriptData === '{}') return []
 
-        return JSON.parse(scriptData)
+        return scriptData
 
     } catch (error) {
         console.error('Error loading script: ', error)
