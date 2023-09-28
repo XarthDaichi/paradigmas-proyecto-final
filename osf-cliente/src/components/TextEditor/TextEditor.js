@@ -85,12 +85,17 @@ const TextEditor = ({ keywordsList }) => {
   };
 
   const handleEval = () => {
+    const transpiledName = scriptName === "" ? "unamed" : scriptName
+    const transScript = {
+      name : transpiledName,
+      text : outputText,
+    };
     fetch(`${API_SERVER_URL}/eval`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ text: outputText }),
+      body: JSON.stringify(transScript),
     })
       .then((response) => response.json())
       .then((data) => setEvalText(data.result))
@@ -102,12 +107,18 @@ const TextEditor = ({ keywordsList }) => {
   };
 
   const handleSendToServer = () => {
+    const tempName = scriptName === "" ? "unamed" : scriptName
+    const script = {
+      name : tempName,
+      text : inputText,
+    };
+
     fetch(`${API_SERVER_URL}/compile`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ name: scriptName, text: inputText }),
+      body: JSON.stringify(script),
     })
       .then((response) => response.json())
       .then((data) => {console.log(data.result); setOutputText(`${data.result.timestamp}\nNombre: ${data.result.name}\n${data.result.text}`)})

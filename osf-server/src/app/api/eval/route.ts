@@ -1,5 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 
+const FS_URL = "http://localhost:3000/api/fs"
+
 export async function OPTIONS(request: Request) {
     const response = new NextResponse(null, {
       status: 200,
@@ -16,10 +18,17 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-    const { timestamp, name, text }: TranspiledScript = await req.json()
+    const { name, text }: Partial<TranspiledScript> = await req.json()
 
     const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${text} \n Nombre: ${name}.json`
     console.log(timeStampedText)
-    // await fetch()
-    return NextResponse.json({ result: timeStampedText })
+    const res = await fetch(`${FS_URL}/eval`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application.json'
+      },
+      body: JSON.stringify(timeStampedText)
+    })
+    console.log(await res.json())
+    return NextResponse.json({ result: timeStampedText, message: "Saved" })
 }
