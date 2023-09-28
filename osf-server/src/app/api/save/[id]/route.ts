@@ -2,6 +2,22 @@ import { NextResponse } from 'next/server'
 
 const FS_URL = "http://localhost:3000/api/fs"
 
+export async function OPTIONS(request: Request) {
+    const allowedOrigin = request.headers.get("origin");
+    const response = new NextResponse(null, {
+      status: 200,
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers":
+          "Content-Type, Authorization, X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Date, X-Api-Version",
+        "Access-Control-Max-Age": "86400",
+      },
+    });
+  
+    return response;
+}
+
 async function loadScripts() {
     try {
         const scriptDataResponse = await fetch(`${FS_URL}?file=scripts.json`)
@@ -37,5 +53,5 @@ export async function POST(request: Request) {
         body: JSON.stringify(scripts)
     })
     console.log(await res.json())
-    return NextResponse.json({"message": "Name successfully changed"})
+    return NextResponse.json({"message": "Saved Correctly changed"})
 }

@@ -5,7 +5,7 @@ const ScriptPopup = ({ onSave }) => {
 
   const handleSave = () => {
     onSave(scriptName);
-    setScriptName('');
+    setScriptName(scriptName);
   };
 
   return (

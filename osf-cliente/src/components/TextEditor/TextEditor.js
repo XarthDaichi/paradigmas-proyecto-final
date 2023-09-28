@@ -139,11 +139,7 @@ const TextEditor = ({ keywordsList }) => {
       setErrorMessage("El contenido del script no puede estar vacío");
       return;
     }
-
-    const newScript = {
-      name: scriptName,
-      text: inputText,
-    };
+    const newScript = !selectedScriptId ? { name: scriptName, text: inputText, } : {id: selectedScriptId, name: scriptName, text: inputText};
 
     console.log("Saving new script:", newScript);
 
@@ -153,6 +149,7 @@ const TextEditor = ({ keywordsList }) => {
     setIsPopupOpen(false);
     setErrorMessage("");
 
+    if (!selectedScriptId) {
     fetch(`${API_SERVER_URL}/script`, {
       method: "POST",
       headers: {
@@ -168,6 +165,24 @@ const TextEditor = ({ keywordsList }) => {
         setErrorMessage("");
       })
       .catch((error) => console.error("Error sending data to server:", error));
+    } else {
+      fetch(`${API_SERVER_URL}/save/${selectedScriptId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newScript),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setOutputText(data.message);
+          setIsPopupOpen(false);
+          setIsSaved(true);
+          setErrorMessage("");
+        })
+        .catch((error) => console.error("Error sending data to server:", error));
+    }
+    handleRetrieveScript()
   };
 
   const handleKeyDown = (e) => {
@@ -232,7 +247,7 @@ const TextEditor = ({ keywordsList }) => {
             <option value="">Selecciona un script</option>
             {scripts.map((script) => (
               <option key={script.id} value={script.id}>
-                {script.name}
+                {script.id}-{script.name}
               </option>
             ))}
           </select>
