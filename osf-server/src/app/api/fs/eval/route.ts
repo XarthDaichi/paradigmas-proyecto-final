@@ -4,6 +4,6 @@ import { join } from 'path'
 
 export async function POST(req: Request) {
     const transpiledScript = await req.json()
-    writeFileSync(join(__dirname, `../../../../../../ra_fake.txt`), JSON.stringify(transpiledScript))
+    writeFileSync(join(__dirname, `../../../../../../ra_fake.txt`), transpiledScript)
     return NextResponse.json({"message": "Wrote ra_fake.txt correctly"})
 }
