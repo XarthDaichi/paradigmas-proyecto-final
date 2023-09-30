@@ -19,6 +19,7 @@ const TextEditor = ({ keywordsList }) => {
   const [currentLineNumber, setCurrentLineNumber] = useState(1);
   const [scripts, setScripts] = useState([]);
   const [selectedScriptId, setSelectedScriptId] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   const handleClear = () => {
     const confirmed = window.confirm(
@@ -35,6 +36,10 @@ const TextEditor = ({ keywordsList }) => {
     const newText = e.target.value;
     const words = newText.split(/\s+/);
 
+    const filteredKeywords = keywordsList.filter((keyword) =>
+    keyword.toLowerCase().includes(newText.toLowerCase())
+    );
+
     let processedText = "";
     for (let word of words) {
       const trimmedWord = word.trim();
@@ -45,6 +50,7 @@ const TextEditor = ({ keywordsList }) => {
 
     setInputText(newText);
     setOutputText(processedText);
+    setSuggestions(filteredKeywords);
   };
 
   const handleRetrieveScript = () => {
@@ -169,6 +175,10 @@ const TextEditor = ({ keywordsList }) => {
       })
       .catch((error) => console.error("Error sending data to server:", error));
   };
+  const handleSuggestionClick = (suggestion) => {
+    setInputText(suggestion);
+    setSuggestions([]);
+  };
 
   const handleKeyDown = (e) => {
     const currentCursorPosition = e.target.selectionStart;
@@ -212,6 +222,17 @@ const TextEditor = ({ keywordsList }) => {
           onKeyDown={handleKeyDown}
           placeholder="Insertar código aquí..."
         />
+          <ul>
+        {suggestions.map((suggestion, index) => (
+          <li
+            key={index}
+            onClick={() => handleSuggestionClick(suggestion)}
+            className="suggestion-item"
+          >
+            {suggestion}
+          </li>
+        ))}
+      </ul>
         <div className="arrow">→</div>
         <textarea
           id="TO"
