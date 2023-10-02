@@ -23,7 +23,7 @@ export function loadScripts() {
         const scriptData = read('scripts.json')
         if (scriptData === '' || scriptData === '{}') return []
 
-        return scriptData
+        return JSON.parse(scriptData)
 
     } catch (error) {
         console.error('Error loading script: ', error)
