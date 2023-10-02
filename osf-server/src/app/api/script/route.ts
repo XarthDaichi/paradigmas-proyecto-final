@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
-
-const FS_URL = "http://localhost:3000/api/fs"
+import { loadScripts, write } from '../../../fs'
 
 export async function OPTIONS(request: Request) {
     const allowedOrigin = request.headers.get("origin");
@@ -18,27 +17,12 @@ export async function OPTIONS(request: Request) {
     return response;
 }
 
-async function loadScripts() {
-    try {
-        const scriptDataResponse = await fetch(`${FS_URL}?file=scripts.json`)
-        const scriptData = await scriptDataResponse.json()
-        if (scriptData === '' || scriptData === '{}') return []
-
-        return scriptData
-
-    } catch (error) {
-        console.error('Error loading script: ', error)
-        return {}
-    }
-}
-
 export async function POST(req: Request) {
-    let scripts = await loadScripts()
-
+    let scripts = loadScripts()
     const { name, text }: Partial<Script> = await req.json()
 
     if (!name) return NextResponse.json({"message": "Missing script name"})
-    if (!text) return NextResponse.json({"message": "Missing script"})
+    if (!text) return NextResponse.json({"message": "Missing script text"})
 
     const id = scripts.length + 1
 
@@ -46,21 +30,13 @@ export async function POST(req: Request) {
 
     scripts.push(newScript)
 
-    const res = await fetch(`${FS_URL}/script`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application.json'
-        },
-        body: JSON.stringify(scripts)
-    })
-
-    console.log(await res.json())
+    write('scripts.json', scripts)
 
     return NextResponse.json({"message": "Script saved"})
 }
 
 export async function GET() {
-    let scripts = await loadScripts()
+    let scripts = loadScripts()
     let names: Partial<Script>[] = []
 
     scripts.forEach(function (script:Script) {

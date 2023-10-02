@@ -1,6 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server'
-
-const FS_URL = "http://localhost:3000/api/fs"
+import { write } from '../../../fs'
 
 export async function OPTIONS(request: Request) {
     const response = new NextResponse(null, {
@@ -21,14 +20,6 @@ export async function POST(req: Request) {
     const { name, text }: Partial<TranspiledScript> = await req.json()
 
     const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${text} \n Nombre: ${name}.json`
-    console.log(timeStampedText)
-    const res = await fetch(`${FS_URL}/eval`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application.json'
-      },
-      body: JSON.stringify(timeStampedText)
-    })
-    console.log(await res.json())
+    write('ra_fake.txt', timeStampedText)
     return NextResponse.json({ result: timeStampedText, message: "Saved" })
 }
