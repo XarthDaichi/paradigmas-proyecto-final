@@ -1,1 +1,3 @@
-"Echo from server: at 2023-10-02T19:08:00.501Z: \n hello world!!!! \n Nombre: unamed.json"
+Echo from server: at 2023-10-02T19:33:16.566Z: 
+ hello world!!!! 
+ Nombre: unamed.json
