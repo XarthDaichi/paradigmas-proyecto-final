@@ -32,6 +32,6 @@ export async function POST(request: Request) {
 
     scripts[id-1].name = name
     scripts[id-1].text = text
-    write('scripts.json', JSON.stringify(scripts))
+    write('scripts.json', JSON.stringify({"scripts" : scripts}))
     return NextResponse.json({"message": "Saved Correctly changed"})
 }

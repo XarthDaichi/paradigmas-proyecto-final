@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs'
 import { join } from 'path'
 
-export function read(file: string) : string {
+export function read(file: string) {
     try {
         return JSON.parse(readFileSync(join(process.cwd(), file), 'utf8'))
     } catch (error) {
@@ -20,11 +20,7 @@ export function write(file: string, object_json: string) {
 
 export function loadScripts() {
     try {
-        const scriptData = read('scripts.json')
-        if (scriptData === '' || scriptData === '{}') return []
-
-        return JSON.parse(scriptData)
-
+        return read('scripts.json').scripts
     } catch (error) {
         console.error('Error loading script: ', error)
         return {}

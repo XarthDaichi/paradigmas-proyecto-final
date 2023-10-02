@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
     scripts.push(newScript)
 
-    write('scripts.json', scripts)
+    write('scripts.json', JSON.stringify({"scripts" : scripts}))
 
     return NextResponse.json({"message": "Script saved"})
 }
