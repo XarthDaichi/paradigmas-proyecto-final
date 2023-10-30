@@ -1,0 +1,11 @@
+// scirpt ofs_test.ofs
+const nats = [* 0, n -> n + 1] // Es como nats = new Nats(0)
+const even = nats >> [? n -> n % 2 == 0] // es pipe que filtra números pares de nats produciendo un nuevo iterable con ellos
+const evenLessThanEleven = even >> [? n -> n < 11] // pipe que filtra del pipe even los pares menores que 11
+evenLessThanEleven >> [> n -> console.log(n) ] // pipe que imprime los pares menores que 11 del paso anterior
+
+// Notas OFS
+// -> en vez de =>
+// [* ... ] se llama iterate
+// [? ... ] es el filter de iterables
+// [> ... ] es el map de iterables
