@@ -1,9 +1,16 @@
 import { NextResponse } from 'next/server'
-import { loadScripts, write } from '../../../../fs'
+import { Script } from '@/lib/types'
+import { ObjectId } from 'mongodb'
+import { deleteScript, getScript } from '@/lib/mongo/scripts'
 
 export async function GET(request: Request) {
-    const pos: number = Number(request.url.slice(request.url.lastIndexOf('/') + 1)) - 1
-    const scripts: Script[] = loadScripts()
-    const script: Script = pos < scripts.length ? scripts[pos] : {id: -1, text: '', name: ''}
-    return script.id === -1 ? NextResponse.json({"message": `Error gathering script id: ${pos + 1}`}) : NextResponse.json(script)
+    const _id: ObjectId = new ObjectId(request.url.slice(request.url.lastIndexOf('/') + 1))
+    const { script, error } = await getScript(_id) 
+    return NextResponse.json(script)
+}
+
+export async function DELETE(request: Request) {
+    const _id: ObjectId = new ObjectId(request.url.slice(request.url.lastIndexOf('/') + 1))
+    const { deletedCount, error } = await deleteScript(_id)
+    return NextResponse.json({"message": `Deleted Correctly: ${deletedCount} file`})
 }

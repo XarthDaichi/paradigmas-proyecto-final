@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
-import { read } from '../../../fs'
+import { getKeywords } from '@/lib/mongo/keywords'
+import { Keyword } from '@/lib/types'
 
 export async function GET() {
-    return NextResponse.json({keywords: read('keywords.json')})
+    const {keywords, error} = await getKeywords()
+    let keywordsParsed : string[] = []
+    !keywords? keywordsParsed = [] : keywords.map((word) => (keywordsParsed.push(word.keyword)))
+    return NextResponse.json({keywords: keywordsParsed})
 }

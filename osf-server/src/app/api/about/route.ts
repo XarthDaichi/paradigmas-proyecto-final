@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
-import { read } from '../../../fs'
+import { getAbout } from '@/lib/mongo/about'
 
 export async function GET() {
-  return NextResponse.json(read('about.json'));
+  const {about, error} = await getAbout()
+  return NextResponse.json(about);
 }

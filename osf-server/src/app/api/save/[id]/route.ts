@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server'
-import { loadScripts, write } from '../../../../fs'
+import { ObjectId } from 'mongodb'
+import { updateScript } from '@/lib/mongo/scripts'
+import { Script } from '@/lib/types';
 
-const FS_URL = "http://localhost:3000/api/fs"
+
 
 export async function OPTIONS(request: Request) {
     const allowedOrigin = request.headers.get("origin");
@@ -19,19 +21,15 @@ export async function OPTIONS(request: Request) {
     return response;
 }
 
-export async function POST(request: Request) {
-    const { id, name, text }: Script = await request.json()
+export async function PUT(request: Request) {
+    const _id: ObjectId = new ObjectId(request.url.slice(request.url.lastIndexOf('/') + 1))
+    const { name, text }: Script = await request.json()
 
-    if (!id) return NextResponse.json({"message": "Missing script id"})
+    if (!_id) return NextResponse.json({"message": "Missing script id"})
     if (!name) return NextResponse.json({"message": "Missing script name"})
     if (!text) return NextResponse.json({"message": "Missing script text"})
-
-    let scripts: Script[] = loadScripts()
-
-    if (id > scripts.length - 1) return NextResponse.json({"message": "Invalid script id"})
-
-    scripts[id-1].name = name
-    scripts[id-1].text = text
-    write('scripts.json', JSON.stringify({"scripts" : scripts}))
-    return NextResponse.json({"message": "Saved Correctly changed"})
+    const updatedScript: Script = {_id, name, text}
+    const {modifiedCount, error} = await updateScript(updatedScript)
+    console.log(modifiedCount)
+    return NextResponse.json({"message": `Saved Correctly changed: ${modifiedCount} file`})
 }

@@ -145,7 +145,7 @@ const TextEditor = ({ keywordsList }) => {
       setErrorMessage("El contenido del script no puede estar vacío");
       return;
     }
-    const newScript = !selectedScriptId ? { name: scriptName, text: inputText, } : {id: selectedScriptId, name: scriptName, text: inputText};
+    const newScript = !selectedScriptId ? { name: scriptName, text: inputText, } : {_id: selectedScriptId, name: scriptName, text: inputText};
 
     console.log("Saving new script:", newScript);
 
@@ -267,8 +267,8 @@ const TextEditor = ({ keywordsList }) => {
           <select onChange={handleScriptSelect} value={selectedScriptId}>
             <option value="">Selecciona un script</option>
             {scripts.map((script) => (
-              <option key={script.id} value={script.id}>
-                {script.id}-{script.name}
+              <option key={script._id} value={script._id}>
+                {script._id}-{script.name}
               </option>
             ))}
           </select>

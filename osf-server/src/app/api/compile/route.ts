@@ -1,4 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server'
+import { Script } from '@/lib/types'
 
 export async function OPTIONS(request: Request) {
     const response = new NextResponse(null, {
@@ -16,7 +17,7 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-  const { name, text }: Partial<Script> = await req.json()
+  const { name, text }: Script = await req.json()
 
   if (!text) return NextResponse.json({"message": "Missing script text"})
   if (!name) return NextResponse.json({"message": "Missing script name"})

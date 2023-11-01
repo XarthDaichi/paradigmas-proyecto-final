@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
-import { write } from '../../../fs'
+import { write } from '@/lib/utils/fs'
+import { TranspiledScript } from '@/lib/types';
 
 export async function OPTIONS(request: Request) {
     const response = new NextResponse(null, {
