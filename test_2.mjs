@@ -1,11 +1,13 @@
-import {map, filter, iterable, cut} from './combinadores.mjs';
+import {Stream, Nats} from './combinadores.mjs';
 
-const nats = iterable(0, (n) => n + 1);
+const nats = new Stream( Nats(0) );
 
-const even = filter(nats, (n) => n % 2 === 0);
+const even = nats.filter((n) => n % 2 === 0);
 
-const evenGreaterThanTen = filter(even, (n) => n > 10);
+const evenGreaterThanTen = even.filter((n) => n > 10);
 
-const onlyFiveAfterTen = cut(evenGreaterThanTen, 5);
+const onlyFiveAfterTen = evenGreaterThanTen.cut(5);
 
-map(onlyFiveAfterTen, (n) => console.log(n));
+for (const e of onlyFiveAfterTen.map((n) => console.log(n)).toList()) {
+
+}
