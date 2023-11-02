@@ -11,6 +11,7 @@ Returns: {"accepted":true, "answer":Some_Number1+Some_Number2}    if data ok
 author: loriacarlos@gmail.com
 since: 2022
 */
+:- [port].
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
@@ -22,6 +23,7 @@ since: 2022
 
 % URL handlers.
 :- http_handler('/add', handle_request, [method(post)]).
+:- http_handler('/eval', handle_request, [method(post)]).
 :- http_handler('/', home, []).
 
 
@@ -44,6 +46,8 @@ solve(_{a:X, b:Y}, _{status: true, answer:N, msg:'succeed'}) :-
     N is X + Y
 .
 solve(_, _{accepted: false, answer:0, msg:'Error: failed number validation'}).
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 home(_Request) :-
@@ -61,9 +65,10 @@ home(_Request) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- initialization
     format('*** Starting Server ***~n', []),
-    (current_prolog_flag(argv, [SPort | _]) -> true ; SPort='8000'),
+    (current_prolog_flag(argv, [SPort | _]) -> true ; getSwiplPort(SPort)),
     atom_number(SPort, Port),
     format('*** Serving on port ~d *** ~n', [Port]),
-    set_setting_default(http:cors, [*]), % Allows cors for every
+    getNextPort(AllowedPort),
+    set_setting_default(http:cors, [AllowedPort]),
     server(Port).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

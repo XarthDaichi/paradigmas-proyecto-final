@@ -1,7 +1,8 @@
-export function* Nats(start = 0, end=Infinity) {
+export function* iterable(start = 0, func, end=Infinity) {
     let n = start;
     while(n < end) {
-        yield n++;
+        yield n;
+		n = func(n);
     }
 }
 
@@ -23,6 +24,7 @@ export class Stream {
 	filter( p ) {
 		function* gen(iterable) {
 			for (const e of iterable) {
+				// console.log(e);
 				if( p( e ) ) yield e;
 			}
 		}
@@ -37,11 +39,12 @@ export class Stream {
 		function* gen(iterable) {
 			let i = 0;
 			for (const e of iterable) {
+				console.log('cut:', e);
 				if (i < n) {
 					yield e;
-					i++;
 				}
 				else break;
+				i++;
 			}
 		}
 		return new Stream( gen(this.#iterable) );

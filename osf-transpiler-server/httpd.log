@@ -11,3 +11,17 @@ completed(4, 0.0, 490, 200, ok).
 completed(5, 0.0, 46, 200, ok).
 /*Sat Oct 21 15:08:50 2023*/ request(6, 1697922530.013, [peer(ip(127,0,0,1)),method(post),request_uri('/add'),path('/add'),http_version(1-0),host(localhost),port(8000),user_agent('SWI-Prolog'),connection(close),content_length(17),content_type('application/json; charset=UTF-8')]).
 completed(6, 0.0, 46, 200, ok).
+server(started, 1698893235).
+/*Wed Nov 01 20:47:15 2023*/ request(1, 1698893235.062, [peer(ip(127,0,0,1)),method(get),request_uri(/),path(/),http_version(1-1),host(localhost),port(8000),user_agent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0'),connection('keep-alive'),upgrade_insecure_requests('1'),sec_fetch_dest(document),sec_fetch_mode(navigate),sec_fetch_site(none),sec_fetch_user('?1')]).
+completed(1, 0.015625, 490, 200, ok).
+/*Wed Nov 01 20:47:15 2023*/ request(2, 1698893235.271, [peer(ip(127,0,0,1)),method(get),request_uri('/favicon.ico'),path('/favicon.ico'),http_version(1-1),host(localhost),port(8000),user_agent('Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/119.0'),connection('keep-alive'),referer('http://localhost:8000/'),sec_fetch_dest(image),sec_fetch_mode('no-cors'),sec_fetch_site('same-origin')]).
+completed(2, 0.0, 93, 404, error(404,'/favicon.ico')).
+/*Wed Nov 01 20:48:16 2023*/ request(3, 1698893296.977, [peer(ip(127,0,0,1)),method(post),request_uri('/add'),path('/add'),http_version(1-1),content_type('application/json'),user_agent('PostmanRuntime/7.34.0'),cache_control('no-cache'),postman_token('b2dc1ff5-1c7a-409b-895e-57832ec3cedc'),host(localhost),port(8000),connection('keep-alive'),content_length(29)]).
+completed(3, 0.0, 44, 200, ok).
+/*Wed Nov 01 20:48:35 2023*/ request(4, 1698893315.376, [peer(ip(127,0,0,1)),method(post),request_uri('/add'),path('/add'),http_version(1-1),content_type('application/json'),user_agent('PostmanRuntime/7.34.0'),cache_control('no-cache'),postman_token('75ba2324-a352-4e96-820e-2ab4f836347e'),host(localhost),port(8000),connection('keep-alive'),content_length(17)]).
+completed(4, 0.0, 79, 200, ok).
+/*Wed Nov 01 20:50:49 2023*/ request(5, 1698893449.977, [peer(ip(127,0,0,1)),method(post),request_uri('/eval'),path('/eval'),http_version(1-1),content_type('application/json'),user_agent('PostmanRuntime/7.34.0'),cache_control('no-cache'),postman_token('bb07840e-3612-43c2-a306-19f95b94cb83'),host(localhost),port(8000),connection('keep-alive'),content_length(17)]).
+completed(5, 0.0, 67, 404, error(404,'/eval')).
+server(started, 1698893471).
+/*Wed Nov 01 20:51:10 2023*/ request(1, 1698893470.703, [peer(ip(127,0,0,1)),method(post),request_uri('/eval'),path('/eval'),http_version(1-1),content_type('application/json'),user_agent('PostmanRuntime/7.34.0'),cache_control('no-cache'),postman_token('31abeb5e-5720-4760-8582-f82f63341088'),host(localhost),port(8000),connection('keep-alive'),content_length(16)]).
+completed(1, 0.03125, 79, 200, ok).
