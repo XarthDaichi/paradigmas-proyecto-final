@@ -1,0 +1,29 @@
+import java.net.http.*;
+import java.net.http.HttpResponse.*;
+import java.net.http.HttpRequest.*;
+
+
+void doTest() throws Exception{ 
+    var PORT = 8000;
+    var API = "/add";
+    var SERVICE = String.format("http://localhost:%d%s", PORT, API); 
+    
+    var client = HttpClient.newHttpClient();
+    
+    var uri = URI.create(SERVICE);
+    
+    var body = "{\"a\":10, \"b\":666}"; //"{\"a\":10, \"b\":665}";
+
+    var request = HttpRequest.newBuilder(uri)
+                             .version(HttpClient.Version.HTTP_1_1)
+                             .header("Content-Type", "application/json")
+                             .header("accept", "application/json")
+                             .POST(BodyPublishers.ofString(body))
+                             .build();
+    println(String.format("*** Sending %s ***", body));
+    var response = client.send(request, BodyHandlers.ofString());
+    println("*** Response ***");
+    println(response.body());
+}
+
+
