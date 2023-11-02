@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { Script, TranspiledScript } from '@/lib/types'
 import { write } from '@/lib/utils/fs';
-// import dns from 'node:dns'
+import dns from 'node:dns'
 
 export async function OPTIONS(request: Request) {
     const response = new NextResponse(null, {
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
   if (!text) return NextResponse.json({"message": "Missing script text"})
   if (!name) return NextResponse.json({"message": "Missing script name"})
 
-  // dns.setDefaultResultOrder( 'ipv4first')
+  if (process.env.NODE_ENV === 'production') dns.setDefaultResultOrder( 'ipv4first')
 
   const response = await fetch(`http://localhost:${process.env.SWIPLPORT}/compile`, {
     method: "POST",

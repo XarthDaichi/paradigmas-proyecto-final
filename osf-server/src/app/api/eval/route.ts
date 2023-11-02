@@ -27,7 +27,7 @@ export async function POST(req: Request) {
         if (error) {
           reject(`Error: ${error.message}`);
         } else {
-          resolve(stdout);
+          resolve(`[ ${stdout} ]`);
         }
       })
     })

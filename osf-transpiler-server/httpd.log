@@ -216,3 +216,18 @@ completed(17, 0.0, 1327, 200, ok).
 completed(18, 0.0, 1327, 200, ok).
 /*Thu Nov 02 02:59:48 2023*/ request(19, 1698915588.118, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(73)]).
 completed(19, 0.0, 1327, 200, ok).
+server(started, 1698916907).
+/*Thu Nov 02 03:21:47 2023*/ request(1, 1698916907.231, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(73)]).
+completed(1, 0.0, 1329, 200, ok).
+server(started, 1698917151).
+/*Thu Nov 02 03:25:51 2023*/ request(1, 1698917151.391, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(73)]).
+completed(1, 0.0, 1329, 200, ok).
+server(started, 1698917225).
+/*Thu Nov 02 03:27:04 2023*/ request(1, 1698917224.738, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(73)]).
+completed(1, 0.03125, 1329, 200, ok).
+server(started, 1698917323).
+/*Thu Nov 02 03:28:42 2023*/ request(1, 1698917322.531, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(73)]).
+completed(1, 0.0, 1315, 200, ok).
+server(started, 1698917460).
+/*Thu Nov 02 03:30:59 2023*/ request(1, 1698917459.581, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(73)]).
+completed(1, 0.0, 1315, 200, ok).

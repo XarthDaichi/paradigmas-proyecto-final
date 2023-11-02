@@ -1,11 +1,11 @@
-export function* iterable(start = 0, func, end=Infinity) {
+function* iterable(start = 0, func, end=Infinity) {
 let n = start;
 while(n < end) {
 yield n;
 n = func(n);
 }
 }
-export class Stream {
+class Stream {
 #iterable; // esto es para hacer que iterable sea private
 constructor( iterable ) {
 this.#iterable = iterable;
@@ -37,7 +37,7 @@ cut( n ) {
 function* gen(iterable) {
 let i = 0;
 for (const e of iterable) {
-console.log('cut:', e);
+//console.log('cut:', e);
 if (i < n) {
 yield e;
 }

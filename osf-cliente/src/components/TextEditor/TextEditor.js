@@ -99,7 +99,7 @@ const TextEditor = ({ keywordsList }) => {
   };
 
   const handleEval = () => {
-    const transpiledName = scriptName === "" ? "unamed" : scriptName
+    const transpiledName = scriptName === "" ? "unamed.js" : scriptName.substring(0, scriptName.length - 4) + '.js'
     const transScript = {
       name : transpiledName,
       text : outputText,
