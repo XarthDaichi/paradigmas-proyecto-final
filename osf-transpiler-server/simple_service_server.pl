@@ -22,15 +22,21 @@ since: 2022
 :- use_module(library(http/html_write)).
 
 % URL handlers.
-:- http_handler('/add', handle_request, [method(post)]).
-:- http_handler('/eval', handle_request, [method(post)]).
+:- http_handler('/add', handle_request_add, [method(post)]).
+:- http_handler('/eval', handle_request_eval, [method(post)]).
 :- http_handler('/', home, []).
 
 
 
-handle_request(Request) :-
+handle_request_add(Request) :-
     http_read_json_dict(Request, Query),
     solve(Query, Solution),
+    reply_json_dict(Solution).
+
+handle_request_eval(Request) :-
+    http_read_json_dict(Request, Query),
+    writeln('Hello World'),
+    Solution = 1,
     reply_json_dict(Solution).
 
 server(Port) :-
@@ -39,6 +45,11 @@ server(Port) :-
 set_setting(http:logfile, 'service_log_file.log').
 
 %%%%%%%%%%%%%%%%%%%%%%%%%% BUSINESS LOGIC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% getTimeStamp(+Timestamp)
+getTimeStamp(T) :- 
+    get_time(Timestamp), 
+    format_time(atom(T), '%d-%m-%Y-%T %z', Timestamp). % d (day_num), m (month_num), y (year_num), T (Time (HH-mm-ss.ss)), z UTC- 
+
 % Calculates a + b.
 solve(_{a:X, b:Y}, _{status: true, answer:N, msg:'succeed'}) :-
     number(X),
@@ -47,6 +58,7 @@ solve(_{a:X, b:Y}, _{status: true, answer:N, msg:'succeed'}) :-
 .
 solve(_, _{accepted: false, answer:0, msg:'Error: failed number validation'}).
 
+% 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -69,6 +81,6 @@ home(_Request) :-
     atom_number(SPort, Port),
     format('*** Serving on port ~d *** ~n', [Port]),
     getNextPort(AllowedPort),
-    set_setting_default(http:cors, [AllowedPort]),
+    set_setting_default(http:cors, [AllowedPort]), % antes estaba como * (cambiar devuelta si no sirve)
     server(Port).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
