@@ -41,3 +41,11 @@ for (const e of evenLessThanEleven.map((n) => console.log(n)).cut(10).toList()) 
     // evenLess => even => nats(2) => even(2) => evenLess(2) => console.log(2)
     // evenLess => even => nats(3) => even(3) => evenLess(2
 }
+
+/*
+const nats = new Stream(iterable());
+const even = nats.filter(n => n % 2 === 0);
+const evenLessThanEleven = even.filter(n => n < 11);
+const evenLessThanElevenOnlyTen = evenLessThanEleven.cut(10);
+evenLessThanElevenOnlyTen.toList().forEach(n => console.log(n));
+*/
