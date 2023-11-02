@@ -11,7 +11,7 @@ Returns: {"accepted":true, "answer":Some_Number1+Some_Number2}    if data ok
 author: loriacarlos@gmail.com
 since: 2022
 */
-%:- [port].
+:- [port].
 :- use_module(library(http/thread_httpd)).
 :- use_module(library(http/http_dispatch)).
 :- use_module(library(http/http_json)).
@@ -112,17 +112,10 @@ home(_Request) :-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% MAIN %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 :- initialization
     format('*** Starting Server ***~n', []),
-    (current_prolog_flag(argv, [SPort | _]) -> true ; SPort='8000'),
+    (current_prolog_flag(argv, [SPort | _]) -> true ; getSwiplPort(SPort)),
     atom_number(SPort, Port),
     format('*** Serving on port ~d *** ~n', [Port]),
-    set_setting_default(http:cors, [*]), % Allows cors for every
+    getNextPort(AllowedPort),
+    set_setting_default(http:cors, [AllowedPort]), % antes estaba como * (cambiar devuelta si no sirve)
     server(Port).
-%:- initialization
-%    format('*** Starting Server ***~n', []),
-%    (current_prolog_flag(argv, [SPort | _]) -> true ; Sport='8000'), % cambiar por getSwiplPort(SPort) cuando terminen pruebas
-%    atom_number(SPort, Port),
-%    format('*** Serving on port ~d *** ~n', [Port]),
-%    % getNextPort(AllowedPort),
-%    set_setting_default(http:cors, [*]), % antes estaba como * (cambiar devuelta si no sirve), cambar a AllowedPort cuando terminen pruebas
-%    server(Port).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
