@@ -15,6 +15,7 @@ export class Stream {
 	map( f ) {
 		function* gen(iterable) {
 			for (const e of iterable) {
+				// console.log('map', iterable.caller, '|', e);
 				yield f( e );
 			}
 		}
@@ -24,7 +25,7 @@ export class Stream {
 	filter( p ) {
 		function* gen(iterable) {
 			for (const e of iterable) {
-				// console.log(e);
+				// console.log('filter', iterable.caller, e);
 				if( p( e ) ) yield e;
 			}
 		}
@@ -39,7 +40,7 @@ export class Stream {
 		function* gen(iterable) {
 			let i = 0;
 			for (const e of iterable) {
-				console.log('cut:', e);
+				// console.log('cut:', iterable.caller, e);
 				if (i < n) {
 					yield e;
 				}
@@ -50,37 +51,3 @@ export class Stream {
 		return new Stream( gen(this.#iterable) );
 	}
 }
-
-// export function map (iter, func) {
-// 	let it = iter.next();
-// 	while (!iter.done) {
-// 		func(it.value);
-// 		it = iter.next();
-// 	}
-// }
-
-// export function* filter (iter, pred) {
-// 	let it = iter.next();
-// 	while (!iter.done) {
-// 		if (pred(it.value)) {
-// 			yield it.value;
-// 		}
-// 		it = iter.next();
-// 	}
-// }
-
-// export function* iterable (start, func) {
-// 	let yielder = start;
-// 	while (true) {
-// 		yield yielder;
-// 		yielder = func(yielder);
-// 	}
-// }
-
-// export function* cut (iter, amount) {
-// 	let i = 0;
-// 	while (i < amount) {
-// 		yield iter.next().value;
-// 		i++;
-// 	}
-// }

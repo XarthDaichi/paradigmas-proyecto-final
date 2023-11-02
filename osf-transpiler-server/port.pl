@@ -1,3 +1,3 @@
 
-getSwiplPort('8001'). 
-getNextPort('http://localhost:3002'). 
+getSwiplPort('8000'). 
+getNextPort('http://localhost:3000'). 

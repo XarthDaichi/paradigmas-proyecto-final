@@ -32,7 +32,7 @@ export async function POST(req: Request) {
       })
     })
 
-    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${await execution_results} \n Nombre: ${name}.json`
+    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${await execution_results} \n Nombre: ${name}`
     // write('ra_fake.txt', timeStampedText)
     return NextResponse.json({ result: timeStampedText, message: "Saved" })
 }

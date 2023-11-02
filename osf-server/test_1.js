@@ -36,6 +36,7 @@ cut( n ) {
 function* gen(iterable) {
 let i = 0;
 for (const e of iterable) {
+//console.log('cut:', e);
 if (i < n) {
 yield e;
 }
@@ -47,12 +48,10 @@ return new Stream( gen(this.#iterable) );
 }
 }
 
-const nats = new Stream( iterable(0, (n) => n + 1) );
+const nats = new Stream( iterable(0, (n) => n + 1, 1000) );
 
 const even = nats.filter((n) => n % 2 === 0);
 
-const evenGreaterThanTen = even.filter((n) => n > 10);
+const evenLessThanEleven = even.filter((n) => n < 11);
 
-const onlyFiveAfterTen = evenGreaterThanTen.cut(5);
-
-onlyFiveAfterTen.map((n) => console.log(n)).toList().forEach(e => {})
+evenLessThanEleven.map((n) => console.log(n)).cut(10).toList().forEach(e => {})
