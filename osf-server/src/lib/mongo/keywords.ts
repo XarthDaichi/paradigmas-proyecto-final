@@ -10,7 +10,6 @@ export const getWord = async (keyword: string) => {
         .collection('Keywords')
         .findOne({keyword : keyword})
         
-        console.log(word)
         return {word : word}
     } catch (error) {
         return {error : 'Word does not exist!'}

@@ -1,6 +1,8 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { write } from '@/lib/utils/fs'
-import { TranspiledScript } from '@/lib/types';
+import { Script, TranspiledScript } from '@/lib/types'
+import { exec } from 'child_process'
+import { join } from 'path'
 
 export async function OPTIONS(request: Request) {
     const response = new NextResponse(null, {
@@ -18,9 +20,19 @@ export async function OPTIONS(request: Request) {
 }
 
 export async function POST(req: Request) {
-    const { name, text }: Partial<TranspiledScript> = await req.json()
+    const { timestamp, name, text }: TranspiledScript = await req.json()
 
-    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${text} \n Nombre: ${name}.json`
-    write('ra_fake.txt', timeStampedText)
+    const execution_results = new Promise((resolve, reject) => {
+      exec(`node ${join(process.cwd(), name)}`, (error, stdout) => {
+        if (error) {
+          reject(`Error: ${error.message}`);
+        } else {
+          resolve(stdout);
+        }
+      })
+    })
+
+    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${await execution_results} \n Nombre: ${name}.json`
+    // write('ra_fake.txt', timeStampedText)
     return NextResponse.json({ result: timeStampedText, message: "Saved" })
 }

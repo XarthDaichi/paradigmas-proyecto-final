@@ -58,7 +58,6 @@ export const deleteScript = async (_id : ObjectId) => {
 
     try {
         const response = await client.db('OFS').collection('Scripts').deleteOne({_id : _id})
-        console.log(response)
         return {deletedCount : response.deletedCount}
     } catch (error) {
         return {error : 'Could not delete Script!'}

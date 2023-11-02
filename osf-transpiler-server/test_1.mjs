@@ -36,7 +36,9 @@ const evenLessThanEleven = even.filter((n) => n < 11);
     }
 */
 
-for (const e of evenLessThanEleven.map((n) => console.log(n)).cut(10).toList()) {
+const temp = evenLessThanEleven.map((n) => console.log(n)).cut(10).toList()
+
+for (const e of temp) {
     // evenLess => even => nats(1) => even(1) X>
     // evenLess => even => nats(2) => even(2) => evenLess(2) => console.log(2)
     // evenLess => even => nats(3) => even(3) => evenLess(2

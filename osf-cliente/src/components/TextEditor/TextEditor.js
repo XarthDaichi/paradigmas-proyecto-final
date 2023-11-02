@@ -29,6 +29,12 @@ const TextEditor = ({ keywordsList }) => {
       setInputText("");
       setOutputText("");
       setIsSaved(false);
+      setEvalText("");
+      setErrorMessage("");
+      setIsPopupOpen(false);
+      setScriptName("");
+      setCurrentLineNumber(1);
+      setSelectedScriptId("");
     }
   };
 
@@ -82,6 +88,8 @@ const TextEditor = ({ keywordsList }) => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
+        setSelectedScriptId(data._id);
+        setScriptName(data.name);
         setInputText(data.text);
         setOutputText(""); // Borrar el OutputText si quiere
       })
@@ -113,11 +121,15 @@ const TextEditor = ({ keywordsList }) => {
   };
 
   const handleSendToServer = () => {
-    const tempName = scriptName === "" ? "unamed" : scriptName
+    const tempId = selectedScriptId === "" ? "-1" : `${selectedScriptId}` 
+    const tempName = scriptName === "" ? "unamed.ofs" : scriptName
     const script = {
+      _id : tempId,
       name : tempName,
       text : inputText,
     };
+
+    console.log(script)
 
     fetch(`${API_SERVER_URL}/compile`, {
       method: "POST",
@@ -127,7 +139,7 @@ const TextEditor = ({ keywordsList }) => {
       body: JSON.stringify(script),
     })
       .then((response) => response.json())
-      .then((data) => {console.log(data.result); setOutputText(`${data.result.timestamp}\nNombre: ${data.result.name}\n${data.result.text}`)})
+      .then((data) => {console.log(data.result); setOutputText(`${data.result.timestamp}\nId:${data.result.id}\nNombre: ${data.result.name}\n${data.result.text}`)})
       .catch((error) => console.error("Error sending data to server:", error));
   };
 

@@ -10,7 +10,6 @@ export const getAbout = async () => {
         .collection('About')
         .findOne()
         
-        console.log(about)
         return {about : about}
     } catch (error) {
         return {error : 'Could not fetch About!'}

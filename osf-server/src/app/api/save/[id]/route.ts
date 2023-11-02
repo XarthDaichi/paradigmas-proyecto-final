@@ -30,6 +30,5 @@ export async function PUT(request: Request) {
     if (!text) return NextResponse.json({"message": "Missing script text"})
     const updatedScript: Script = {_id, name, text}
     const {modifiedCount, error} = await updateScript(updatedScript)
-    console.log(modifiedCount)
     return NextResponse.json({"message": `Saved Correctly changed: ${modifiedCount} file`})
 }

@@ -9,7 +9,8 @@ export type Script = {
 export type TranspiledScript = {
     timestamp: string,
     text: string,
-    name: string
+    name: string,
+    id?: ObjectId
 }
 
 export type Keyword = {
