@@ -1,9 +1,11 @@
-import {Stream, iterable} from './combinadores.mjs';
+import {Stream} from './combinadores.mjs';
 
-const nats = new Stream( iterable(0, (n) => n + 1, 1000) );
+const nats = new Stream( Stream.iterableCreator(0, (n) => n + 1));
 
 const even = nats.filter((n) => n % 2 === 0);
 
 const evenLessThanEleven = even.filter((n) => n < 11);
 
-evenLessThanEleven.map((n) => console.log(n)).cut(10).toList().forEach(e => {})
+for (const e of evenLessThanEleven.map((n) => console.log(n)).cut(10).iterable()) {
+
+}

@@ -40,3 +40,28 @@ if %ERRORLEVEL% equ 0 goto loopreact
 goto REACTFOUND
 
 :REACTFOUND
+
+cd osf-transpiler-server
+echo Setting Port to %swiplport%
+
+echo getSwiplPort('%swiplport%'). >> port.pl
+echo getNextPort('http://localhost:%nextport%'). >> port.pl
+
+cd ..
+
+cd osf-server
+
+echo Setting Next Port to %nextport%
+
+echo Editing .env.local variables for NEXT
+echo PORT = %nextport% >> .env.local
+echo SWIPLPORT = %swiplport% >> .env.local
+echo REACTPORT = %reactport% >> .env.local
+
+cd ..
+
+cd osf-cliente
+echo Setting React Port to %reactport%
+echo Editing .env.local variables for REACT
+echo PORT = %reactport% >> .env.local
+echo REACT_APP_NEXTPORT = %nextport% >> .env.local

@@ -17,12 +17,3 @@ export function write(file: string, object_json: string) {
         console.error('Error loading script: ', error)
     }
 }
-
-export function loadScripts() {
-    try {
-        return read('scripts.json').scripts
-    } catch (error) {
-        console.error('Error loading script: ', error)
-        return {}
-    }
-}

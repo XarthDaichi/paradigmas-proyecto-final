@@ -1,15 +1,18 @@
-export function* iterable(start = 0, func, end=Infinity) {
-    let n = start;
-    while(n < end) {
-        yield n;
-		n = func(n);
-    }
-}
-
 export class Stream {
 	#iterable; // esto es para hacer que iterable sea private
 	constructor( iterable ) {
 		this.#iterable = iterable;
+	}
+
+	static iterableCreator(start = 0, func, end=Infinity) {
+		function* gen(start = 0, func, end=Infinity) {
+			let n = start;
+			while (n < end) {
+				yield n;
+				n = func(n);
+			}
+		}
+		return gen(start, func, end);
 	}
 
 	map( f ) {
@@ -49,5 +52,9 @@ export class Stream {
 			}
 		}
 		return new Stream( gen(this.#iterable) );
+	}
+
+	iterable() {
+		return this.#iterable;
 	}
 }

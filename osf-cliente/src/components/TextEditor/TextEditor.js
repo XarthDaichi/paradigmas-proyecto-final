@@ -185,7 +185,7 @@ const TextEditor = ({ keywordsList }) => {
       .catch((error) => console.error("Error sending data to server:", error));
     } else {
       fetch(`${API_SERVER_URL}/save/${selectedScriptId}`, {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
