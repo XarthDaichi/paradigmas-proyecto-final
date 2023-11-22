@@ -64,22 +64,28 @@ test_json(File, JsonTerm):-
 
 transpile(_{ id: Id, name: Name, text: Text}, _{timestamp: T, id: Id, name: NameJS, text: Trans}) :-
     getTimeStamp(T),
-    string_length(Name, LengthName),
-    LengthNameT is LengthName - 4,
-    sub_atom(Name, 0, LengthNameT, _After, String),
-    string_concat(String, ".js", NameJS),
-    string_concat(String, ".json", TransedFileName),
-    test_json(TransedFileName, json([_, _, text=Trans]))
+    open(Name, write, Stream),
+    format(Stream, '~s', [Text]),
+    close(Stream),
+    parser_executor(Name),
+    string_concat(Name, ".mjs", NameJS),
+    read_file_to_codes(NameJS, TranspiledCodes, []),
+    string_codes(Trans, TranspiledCodes)
+    %string_concat(Name, ".json", TransedFileName),
+    %test_json(TransedFileName, json([_, _, text=Trans]))
 .
 
 transpile(_{ name: Name, text: Text}, _{timestamp: T, name: NameJS, text: Trans}) :-
     getTimeStamp(T),
-    string_length(Name, LengthName),
-    LengthNameT is LengthName - 4,
-    sub_atom(Name, 0, LengthNameT, _After, String),
-    string_concat(String, ".js", NameJS),
-    string_concat(String, ".json", TransedFileName),
-    test_json(TransedFileName, json([_, _, text=Trans]))
+    open(Name, write, Stream),
+    format(Stream, '~s', [Text]),
+    close(Stream),
+    parser_executor(Name),
+    string_concat(Name, ".mjs", NameJS),
+    read_file_to_codes(NameJs, TranspiledCodes, []),
+    string_codes(Trans, TranspiledCodes)
+    %string_concat(Name, ".json", TransedFileName),
+    %test_json(TransedFileName, json([_, _, text=Trans]))
 .
 
 transpile(_, _{timestamp: T, msg:'Failed to parse file'}) :-
