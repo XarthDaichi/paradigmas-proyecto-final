@@ -41,14 +41,12 @@ export class Stream {
 
 	cut( n ) {
 		function* gen(iterable) {
-			let i = 0;
+			let i = n;
 			for (const e of iterable) {
 				// console.log('cut:', iterable.caller, e);
-				if (i < n) {
-					yield e;
-				}
-				else break;
-				i++;
+				i--;
+				if (i < 0) break;
+				yield e;
 			}
 		}
 		return new Stream( gen(this.#iterable) );
