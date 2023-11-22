@@ -1,9 +1,9 @@
-:- [ofs_parser_final].
-:- [ofs_utils_final].
-:- [ofs_generator_final].
+:- [ofs_parser].
+:- [ofs_utils].
+:- [ofs_generator].
 :- use_module(library(readutil)).
 
-test_parser(Filename) :-
+parser_executor(Filename) :-
     read_file_to_codes(Filename, Codes, []),
     ofs_program(Ast, Codes, []), !,
     format('~n*** ~s was correctly parsed. Yay!!!', [Filename]),
@@ -14,7 +14,7 @@ test_parser(Filename) :-
     generator(JSFilename, AstWithoutNulls)
 .
 
-test_parser(Filename) :-
+parser_executor(Filename) :-
     format('~n*** ~s was NOT correctly parsed. Booooo!!!!', [Filename])
 .
 
