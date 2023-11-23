@@ -27,12 +27,14 @@ export async function POST(req: Request) {
         if (error) {
           reject(`Error: ${error.message}`);
         } else {
-          resolve(`[ ${stdout} ]`);
+          resolve(stdout);
         }
       })
     })
 
-    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n ${await execution_results} \n Nombre: ${name}`
+    console.log(await execution_results);
+
+    const timeStampedText = `Echo from server: at ${new Date().toISOString()}: \n Nombre: ${name} \n ${await execution_results}`
     // write('ra_fake.txt', timeStampedText)
     return NextResponse.json({ result: timeStampedText, message: "Saved" })
 }

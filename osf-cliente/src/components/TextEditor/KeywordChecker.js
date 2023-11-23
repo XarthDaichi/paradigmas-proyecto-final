@@ -17,8 +17,9 @@ const KeywordChecker = ({ text, evalRes }) => {
     <div>
       <div className="console-box"> 
         <p>
-          {text} is a keyword: <span className={isKeyword ? 'keyword' : ''}>{isKeyword.toString()}</span><br></br>
-          Eval: {evalRes}
+          {/*{text} is a keyword: <span className={isKeyword ? 'keyword' : ''}>{isKeyword.toString()}</span><br></br>*/}
+          <span>--------------------------------Evaluating Console-------------------------------</span><br></br>
+          {evalRes}
         </p>
       </div>
     </div>

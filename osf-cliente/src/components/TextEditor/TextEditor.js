@@ -99,7 +99,7 @@ const TextEditor = ({ keywordsList }) => {
   };
 
   const handleEval = () => {
-    const transpiledName = scriptName === "" ? "unamed.js" : scriptName.substring(0, scriptName.length - 4) + '.js'
+    const transpiledName = scriptName === "" ? "unamed.mjs" : scriptName + '.mjs'
     const transScript = {
       name : transpiledName,
       text : outputText,
@@ -280,9 +280,10 @@ const TextEditor = ({ keywordsList }) => {
           </button>
           <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li><button className="dropdown-item" onClick={handleClear}>Clear All</button></li>
-              <li><button className="dropdown-item" onClick={handleSendToServer}>Send to Server</button></li>
-              <li><button className="dropdown-item" onClick={handleSaveScript}>Save Script</button></li>
               <li><button className="dropdown-item" onClick={handleLoadSelectedScript}>Retrieve Script</button></li>
+              <li><button className="dropdown-item" onClick={handleSaveScript}>Save Script</button></li>
+
+              <li><button className="dropdown-item" onClick={handleSendToServer}>Send to Server</button></li>
               <li><button className="dropdown-item" onClick={handleEval}>Evaluate</button></li>
             </ul>
           </div>

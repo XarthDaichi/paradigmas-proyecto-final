@@ -60,32 +60,30 @@ test_json(File, JsonTerm):-
    json_read(Stream, JsonTerm)
 .
 
-% transpile(+JSONFile, -TranspiledJSFile) Inputs an .ofs file in JSON format and returns its transpiled version of JS with a timestamp
-
-transpile(_{ id: Id, name: Name, text: Text}, _{timestamp: T, id: Id, name: NameJS, text: Trans}) :-
-    getTimeStamp(T),
-    open(Name, write, Stream),
+write_text_ofs(Filename, Text) :-
+    open(Filename, write, Stream),
     format(Stream, '~s', [Text]),
-    close(Stream),
-    parser_executor(Name),
-    string_concat(Name, ".mjs", NameJS),
-    read_file_to_codes(NameJS, TranspiledCodes, []),
-    string_codes(Trans, TranspiledCodes)
-    %string_concat(Name, ".json", TransedFileName),
-    %test_json(TransedFileName, json([_, _, text=Trans]))
+    close(Stream)
 .
 
-transpile(_{ name: Name, text: Text}, _{timestamp: T, name: NameJS, text: Trans}) :-
+% transpile(+JSONFile, -TranspiledJSFile) Inputs an .ofs file in JSON format and returns its transpiled version of JS with a timestamp
+
+transpile(_{id: Id, name:Name, text:Text}, _{timestamp: T, id: Id, name: NameJS, text: Trans}) :-
     getTimeStamp(T),
-    open(Name, write, Stream),
-    format(Stream, '~s', [Text]),
-    close(Stream),
+    write_text_ofs(Name, Text),
     parser_executor(Name),
-    string_concat(Name, ".mjs", NameJS),
-    read_file_to_codes(NameJs, TranspiledCodes, []),
+    atomic_list_concat([Name, mjs], '.', NameJS),
+    read_file_to_codes(NameJS, TranspiledCodes, []),
     string_codes(Trans, TranspiledCodes)
-    %string_concat(Name, ".json", TransedFileName),
-    %test_json(TransedFileName, json([_, _, text=Trans]))
+.
+
+transpile(_{name:Name, text:Text}, _{timestamp: T, name: NameJS, text: Trans}) :-
+    getTimeStamp(T),
+    write_text_ofs(Name, Text),
+    parser_executor(Name),
+    atomic_list_concat([Name, mjs], '.', NameJS),
+    read_file_to_codes(NameJS, TranspiledCodes, []),
+    string_codes(Trans, TranspiledCodes)
 .
 
 transpile(_, _{timestamp: T, msg:'Failed to parse file'}) :-

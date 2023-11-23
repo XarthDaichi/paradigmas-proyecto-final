@@ -30,10 +30,12 @@ export async function POST(req: Request) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(typeof(_id) === undefined ? { name, text } : {id : _id, name : name, text : name })
+    body: JSON.stringify(!_id ? { name, text } : {id : _id.toString(), name : name, text : text })
   })
 
   const prologResponse : TranspiledScript = await response.json()
+
+  console.log(prologResponse);
 
   write(prologResponse.name, prologResponse.text)
 

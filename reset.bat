@@ -1,12 +1,13 @@
 @echo off
-cd osf-transpiler-server
+SET BASEDIR=%~dp0
+cd %BASEDIR%osf-transpiler-server
 echo.> port.pl
-cd ..
+cd %BASEDIR%
 
-cd osf-server
+cd %BASEDIR%osf-server
 echo MONGODB_URI = mongodb+srv://root:root@cluster0.v7rgr02.mongodb.net/?retryWrites=true^&w=majority > .env.local
-cd ..
+cd %BASEDIR%
 
-cd osf-cliente
+cd %BASEDIR%osf-cliente
 echo.> .env.local
-cd ..
+cd %BASEDIR%

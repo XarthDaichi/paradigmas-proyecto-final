@@ -5,3 +5,6 @@ server(started, 1700719726).
 /*Thu Nov 23 00:08:46 2023*/ request(1, 1700719726.179, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(83)]).
 completed(1, 0.0, 50, 500, error("Illegal HTTP parameter: ")).
 server(stopped, 1700719830).
+server(started, 1700735167).
+/*Thu Nov 23 04:26:07 2023*/ request(1, 1700735167.393, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),content_type('application/json'),user_agent('PostmanRuntime/7.32.1'),cache_control('no-cache'),postman_token('2e6cb319-a225-4940-a400-edaa3db90a91'),host(localhost),port(8000),connection('keep-alive'),content_length(45)]).
+completed(1, 0.0, 174, 500, error("handle_request_compile/1: Unknown procedure: json_read/1\n  However, there are definitions for:\n        json_read/2\n        json_read/3")).
