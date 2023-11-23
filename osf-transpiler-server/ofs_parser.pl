@@ -115,7 +115,7 @@ import_statement_list( [] ) --> [].
 import_statement( import(I, Path) ) --> spaces, "import", spaces, imported_symbols(I), spaces, "from", spaces, string(Path), spaces.
 
 imported_symbols( symbols([I | RI]) ) --> "{", spaces, ident(I), spaces, imported_symbols_rest(RI), spaces, "}".
-imported_symbols( symbols([I]) ) --> ident(I).
+imported_symbols( symbols(I) ) --> ident(I).
 
 imported_symbols_rest( [I, RI] ) --> ",", spaces, ident(I), spaces, imported_symbols_rest(RI).
 imported_symbols_rest( [] ) --> [].
@@ -217,7 +217,7 @@ parenthesis_expression(E) --> "(", spaces, expression(E), spaces, ")".
 qualifiable_id(quali_id([AE | RQI])) --> spaces, access_expression(AE), spaces, qualifiable_id_rest(RQI).
 
 qualifiable_id_rest(['.' | [AE | RQI]]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
-%qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI).
+qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI). % causa errores esta linea TODO
 qualifiable_id_rest([]) --> [].
 
 %%%%%%% args_expressions
@@ -231,8 +231,8 @@ args_expression_contents_rest([]) --> [].
 
 %%%%%%%% access_expressions
 access_expression(access_expr(I)) --> spaces, ident(I), spaces.
-access_expression([access_expr(E) | R]) --> "[", spaces, expression(E), spaces, "]", access_expression(R).
-access_expression([]) --> [].
+access_expression(access_expr(E)) --> "[", spaces, expression(E), spaces, "]"/*, access_expression(R)*/.
+% access_expression([]) --> [].
 
 %%%% array_expressions
 array_expression([contents(AC), operation(AO)]) --> spaces, "[", spaces, array_contents(AC), spaces, "]", spaces, array_operation(AO).

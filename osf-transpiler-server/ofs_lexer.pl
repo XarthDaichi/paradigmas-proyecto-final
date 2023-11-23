@@ -45,23 +45,23 @@ any_char(C) --> [X], {code_type(X, prolog_symbol), atom_codes(C, [X])}.
 any_char(C) --> [X], {code_type(X, space), atom_codes(C, [X])}.
 
 % relational_operator
-relational_operator( rel_opr('==') ) --> "==".
-relational_operator( rel_opr('!=') ) --> "!=".
-relational_operator( rel_opr('<') ) --> "<".
-relational_operator( rel_opr('<=') ) --> "<=".
-relational_operator( rel_opr('>') ) --> ">".
-relational_operator( rel_opr('>=') ) --> ">=".
+relational_operator( rel_opr(' == ') ) --> "==".
+relational_operator( rel_opr(' != ') ) --> "!=".
+relational_operator( rel_opr(' < ') ) --> "<".
+relational_operator( rel_opr(' <= ') ) --> "<=".
+relational_operator( rel_opr(' > ') ) --> ">".
+relational_operator( rel_opr(' >= ') ) --> ">=".
 
 % boolean_operator
-boolean_operator( bool_op('&&') ) --> "&&".
-boolean_operator( bool_op('||') ) --> "||".
+boolean_operator( bool_op(' && ') ) --> "&&".
+boolean_operator( bool_op(' || ') ) --> "||".
 
 % arith_operator
-arith_operator( arith_opr('*') ) --> "*".
-arith_operator( arith_opr('%') ) --> "%".
-arith_operator( arith_opr('/') ) --> "/".
-arith_operator( arith_opr('+') ) --> "+".
-arith_operator( arith_opr('-') ) --> "-".
+arith_operator( arith_opr(' * ') ) --> "*".
+arith_operator( arith_opr(' % ') ) --> "%".
+arith_operator( arith_opr(' / ') ) --> "/".
+arith_operator( arith_opr(' + ') ) --> "+".
+arith_operator( arith_opr(' - ') ) --> "-".
 
 % unary_operator
 unary_operator( unary_opr('-') ) --> "-".
