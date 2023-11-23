@@ -1,6 +1,6 @@
 import {Stream} from './combinadores.mjs';
 
-const nats = new Stream( Stream.iterableCreator(0, (n) => n + 1));
+const nats = new Stream( Stream.iterableCreator(0, (n) => n + 1, 1000));
 
 const even = nats.filter((n) => n % 2 === 0);
 

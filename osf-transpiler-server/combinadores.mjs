@@ -5,7 +5,7 @@ export class Stream {
 	}
 
 	static iterableCreator(start = 0, func, end=Infinity) {
-		function* gen(start = 0, func, end=Infinity) {
+		function* gen() {
 			let n = start;
 			while (n < end) {
 				yield n;
