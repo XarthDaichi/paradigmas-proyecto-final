@@ -217,7 +217,7 @@ parenthesis_expression(E) --> "(", spaces, expression(E), spaces, ")".
 qualifiable_id(quali_id([AE | RQI])) --> spaces, access_expression(AE), spaces, qualifiable_id_rest(RQI).
 
 qualifiable_id_rest(['.' | [AE | RQI]]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
-qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI).
+%qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI).
 qualifiable_id_rest([]) --> [].
 
 %%%%%%% args_expressions
@@ -231,7 +231,8 @@ args_expression_contents_rest([]) --> [].
 
 %%%%%%%% access_expressions
 access_expression(access_expr(I)) --> spaces, ident(I), spaces.
-access_expression(access_expr(E)) --> "[", spaces, expression(E), spaces, "]".
+access_expression([access_expr(E) | R]) --> "[", spaces, expression(E), spaces, "]", access_expression(R).
+access_expression([]) --> [].
 
 %%%% array_expressions
 array_expression([contents(AC), operation(AO)]) --> spaces, "[", spaces, array_contents(AC), spaces, "]", spaces, array_operation(AO).

@@ -1,0 +1,7 @@
+server(started, 1700719593).
+/*Thu Nov 23 00:06:33 2023*/ request(1, 1700719593.035, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(83)]).
+server(stopped, 1700719646).
+server(started, 1700719726).
+/*Thu Nov 23 00:08:46 2023*/ request(1, 1700719726.179, [peer(ip(127,0,0,1)),method(post),request_uri('/compile'),path('/compile'),http_version(1-1),host(localhost),port(8000),connection('keep-alive'),content_type('application/json'),sec_fetch_mode(cors),user_agent(undici),content_length(83)]).
+completed(1, 0.0, 50, 500, error("Illegal HTTP parameter: ")).
+server(stopped, 1700719830).
