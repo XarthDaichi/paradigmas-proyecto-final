@@ -207,12 +207,10 @@ const TextEditor = ({ keywordsList }) => {
     setSuggestions([]);
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyUpOrClick = (e) => {
     const currentCursorPosition = e.target.selectionStart;
-    const textBeforeCursor = inputText.substring(0, currentCursorPosition);
-    const lines = textBeforeCursor.split("\n");
-    const currentLine = lines.length;
-
+    const linesUpToCursor = inputText.substring(0, currentCursorPosition).split("\n");
+    const currentLine = linesUpToCursor.length;
     setCurrentLineNumber(currentLine);
   };
 
@@ -236,18 +234,23 @@ const TextEditor = ({ keywordsList }) => {
     </div>
   ));
 
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
   return (
     <div className="center-container">
       <div className="custom-container">
-        <div className="text-editor">
+        <div className="text-editor" style={{ fontFamily: "'Baloo 2', cursive" }}>
           <div className="line-numbers">{lineNumbers}</div>
           <textarea
           id="TI"
           className="custom-textarea"
-          value={inputText}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Insertar código aquí..."
+            value={inputText}
+            onChange={handleInputChange}
+            onKeyUp={handleKeyUpOrClick}
+            onClick={handleKeyUpOrClick}
+            placeholder="Insertar código aquí..."
         />
           <ul>
         {suggestions.map((suggestion, index) => (
@@ -270,13 +273,26 @@ const TextEditor = ({ keywordsList }) => {
         </div>
         <KeywordChecker text={inputText} 
         evalRes={evalText} />
-        <div className="custom-buttons">
-          <button onClick={handleClear}>Clear All</button>
-          <button onClick={handleSendToServer}>Send to Server</button>
-          <button onClick={handleSaveScript}>Save Script</button>
-          <button onClick={handleLoadSelectedScript}>Retrieve Script</button>
-          <button onClick={handleEval}>Evaluate</button>
-          <select onChange={handleScriptSelect} value={selectedScriptId}>
+       <div className="custom-buttons mb-4 mt-4" style={{ fontFamily: "'Baloo 2', cursive", display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="dropdown">
+          <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Menú
+          </button>
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><button className="dropdown-item" onClick={handleClear}>Clear All</button></li>
+              <li><button className="dropdown-item" onClick={handleSendToServer}>Send to Server</button></li>
+              <li><button className="dropdown-item" onClick={handleSaveScript}>Save Script</button></li>
+              <li><button className="dropdown-item" onClick={handleLoadSelectedScript}>Retrieve Script</button></li>
+              <li><button className="dropdown-item" onClick={handleEval}>Evaluate</button></li>
+            </ul>
+          </div>
+          
+          <select 
+            className="form-select" 
+            onChange={handleScriptSelect} 
+            value={selectedScriptId} 
+            style={{ minWidth: '130px', height: '35px' }}
+          >
             <option value="">Selecciona un script</option>
             {scripts.map((script) => (
               <option key={script._id} value={script._id}>
@@ -285,10 +301,10 @@ const TextEditor = ({ keywordsList }) => {
             ))}
           </select>
         </div>
-        {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} />}
+        {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} onClose={togglePopup} />}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
-        <div className="info-box">
+        <div className="info-box p-3 rounded shadow text-center" style={{ fontFamily: "'Baloo 2', cursive" }}>
           <TextStats
             filename={scriptName}
             currentLine={currentLineNumber}
