@@ -142,9 +142,9 @@ right_declaration( undefined ) --> [].
 expression(PE) --> pipe_expression(PE).
 
 %% pipe_expressions
-pipe_expression( pipe_expr([OE | PER]) ) --> ofs_expression(OE), pipe_expression_rest(PER).
+pipe_expression( [OE | PER] ) --> ofs_expression(OE), pipe_expression_rest(PER).
 
-pipe_expression_rest( [OE | PER] ) --> spaces, ">>", spaces, ofs_expression(OE), spaces, pipe_expression_rest(PER).
+pipe_expression_rest( pipe_expr([OE | PER]) ) --> spaces, ">>", spaces, ofs_expression(OE), spaces, pipe_expression_rest(PER).
 pipe_expression_rest( [] ) --> [].
 
 %% ofs_expressions
@@ -171,13 +171,13 @@ es6_expression(array_expr(AE)) --> array_expression(AE).
 %%%% boolean_expressions
 boolean_expression([RE | RBE]) --> spaces, relational_expression(RE), spaces, boolean_expression_rest(RBE).
 
-boolean_expression_rest([BO, RE | RBE]) --> spaces, boolean_operator(BO), spaces, relational_expression(RE), spaces, boolean_expression_rest(RBE).
+boolean_expression_rest([BO | [RE | RBE]]) --> spaces, boolean_operator(BO), spaces, relational_expression(RE), spaces, boolean_expression_rest(RBE).
 boolean_expression_rest([]) --> [].
 
 %%%%% relational_expressions
-relational_expression([AE | RRE]) --> spaces, arith_expression(AE), spaces, relational_expression_rest(RRE).
+relational_expression(relational_expr([AE | RRE])) --> spaces, arith_expression(AE), spaces, relational_expression_rest(RRE).
 
-relational_expression_rest([RO, AE | RRE]) --> spaces, relational_operator(RO), spaces, arith_expression(AE), spaces, relational_expression_rest(RRE).
+relational_expression_rest([RO | [AE | RRE]]) --> spaces, relational_operator(RO), spaces, arith_expression(AE), spaces, relational_expression_rest(RRE).
 relational_expression_rest([]) --> [].
 
 %%%% conditional_expressions
@@ -186,7 +186,7 @@ conditional_expression([RE, true_then(TE), false_then(FE)]) --> spaces, relation
 %%%% arith_expressions
 arith_expression(arith_expr([FE | RAE])) --> spaces, factor_expression(FE), spaces, arith_expression_rest(RAE).
 
-arith_expression_rest([AO, FE | RAE]) --> spaces, arith_operator(AO), spaces, factor_expression(FE), spaces, arith_expression_rest(RAE).
+arith_expression_rest([AO | [FE | RAE]]) --> spaces, arith_operator(AO), spaces, factor_expression(FE), spaces, arith_expression_rest(RAE).
 arith_expression_rest([]) --> [].
 
 %%%%% factor_expressions
@@ -216,7 +216,7 @@ parenthesis_expression(E) --> "(", spaces, expression(E), spaces, ")".
 %%%%%%% qualifiable_ids
 qualifiable_id(quali_id([AE | RQI])) --> spaces, access_expression(AE), spaces, qualifiable_id_rest(RQI).
 
-qualifiable_id_rest([AE | RQI]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
+qualifiable_id_rest([AE | ['.' | RQI]]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
 qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI).
 qualifiable_id_rest([]) --> [].
 

@@ -31,8 +31,8 @@ decimal(D) --> [X], {code_type(X, decimal), atom_codes(D, [X])}.
 sign(S) --> [X], {member(X, [43, 45]), atom_codes(S, [X])}.
 
 % boolean
-boolean('true') --> "true".
-boolean('false') --> "false".
+boolean(bool('true')) --> "true".
+boolean(bool('false')) --> "false".
 
 % string
 string( str(S) ) --> "'", string_content(S), "'".
