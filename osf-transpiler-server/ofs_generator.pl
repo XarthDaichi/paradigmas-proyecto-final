@@ -21,8 +21,6 @@ generate_import_statement(Stream, import(symbols(SymbolsL),str(Path))) :-
     atomic_list_concat(SymbolsAtomL, ',', SymbolsAtom),
     atomic_list_concat(['{', SymbolsAtom, '}'], SymbolsFullAtom),
     atomic_list_concat(Path, PathAtom),
-    writeln(SymbolsFullAtom),
-    writeln(PathAtom),
     format(Stream, 'import ~s from \'~s\';~n', [SymbolsFullAtom, PathAtom])
 .
 
@@ -41,7 +39,8 @@ generate_import_symbols([], []).
 
 
 %% generate_statement
-
+generate_statement(Stream, S) :-
+    
 
 
 %%% error final option for generate_statement

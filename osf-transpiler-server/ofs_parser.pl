@@ -142,7 +142,7 @@ right_declaration( undefined ) --> [].
 expression(PE) --> pipe_expression(PE).
 
 %% pipe_expressions
-pipe_expression( [OE | PER] ) --> ofs_expression(OE), pipe_expression_rest(PER).
+pipe_expression( pipe_expr([OE | PER]) ) --> ofs_expression(OE), pipe_expression_rest(PER).
 
 pipe_expression_rest( [OE | PER] ) --> spaces, ">>", spaces, ofs_expression(OE), spaces, pipe_expression_rest(PER).
 pipe_expression_rest( [] ) --> [].
@@ -163,8 +163,8 @@ filter_expression(filter(E)) --> "[?", spaces, expression(E), spaces, "]".
 cut_expression(cut(E)) --> "[!", spaces, expression(E), spaces, "]".
 
 %%% es6_expressions 
-es6_expression(boolean_expr(BE)) --> boolean_expression(BE).
 es6_expression(lambda_expr(LE)) --> lambda_expression(LE).
+es6_expression(boolean_expr(BE)) --> boolean_expression(BE).
 es6_expression(conditional_expr(CE)) --> conditional_expression(CE).
 es6_expression(array_expr(AE)) --> array_expression(AE).
 
@@ -217,6 +217,7 @@ parenthesis_expression(E) --> "(", spaces, expression(E), spaces, ")".
 qualifiable_id(quali_id([AE | RQI])) --> spaces, access_expression(AE), spaces, qualifiable_id_rest(RQI).
 
 qualifiable_id_rest([AE | RQI]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
+qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI).
 qualifiable_id_rest([]) --> [].
 
 %%%%%%% args_expressions
@@ -230,20 +231,7 @@ args_expression_contents_rest([]) --> [].
 
 %%%%%%%% access_expressions
 access_expression(access_expr([I])) --> spaces, ident(I), spaces.
-access_expression(access_expr([E | MAE])) --> "[", spaces, expression(E), spaces, "]", access_expression_more(MAE).
-
-access_expression_more([E | MAE]) --> "[", spaces, expression(E), spaces, "]", access_expression_more(MAE).
-access_expression_more([]) --> [].
-
-%%%% lambda_expression
-lambda_expression([variables(PE), lambda(E)]) --> spaces, params_expression(PE), spaces, "->", spaces, expression(E).
-
-%%%%% params_expressions
-params_expression([I]) --> spaces, ident(I), spaces.
-params_expression([I | RPE]) --> spaces, "(", spaces, ident(I), spaces, params_expression_rest(RPE), spaces, ")".
-
-params_expression_rest([I | RPE]) --> spaces, ",", spaces, ident(I), spaces, params_expression_rest(RPE).
-params_expression_rest([]) --> [].
+access_expression(access_expr(E)) --> "[", spaces, expression(E), spaces, "]".
 
 %%%% array_expressions
 array_expression([contents(AC), operation(AO)]) --> spaces, "[", spaces, array_contents(AC), spaces, "]", spaces, array_operation(AO).
@@ -255,6 +243,16 @@ array_contents_rest([]) --> [].
 
 array_operation([E | AO]) --> spaces, "+", spaces, expression(E), spaces, array_operation(AO).
 array_operation([]) --> [].
+
+%%%% lambda_expression
+lambda_expression([variables(PE), lambda(E)]) --> spaces, params_expression(PE), spaces, "->", spaces, expression(E).
+
+%%%%% params_expressions
+params_expression([I]) --> spaces, ident(I), spaces.
+params_expression([I | RPE]) --> spaces, "(", spaces, ident(I), spaces, params_expression_rest(RPE), spaces, ")".
+
+params_expression_rest([I | RPE]) --> spaces, ",", spaces, ident(I), spaces, params_expression_rest(RPE).
+params_expression_rest([]) --> [].
 
 % empty
 empty --> spaces, ";", spaces.
