@@ -25,36 +25,33 @@ const About = () => {
   console.log(about);
 
   if (!about) {
-    return <div>Cargando...</div>; 
+    return (
+      <div className="text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+      </div>
+    ); 
   }
 
-  
-
-  const customStyle = {
-    fontFamily: 'Roboto, sans-serif', // Utiliza la fuente "Roboto" o la que desees
-    fontSize: '18px',
-    lineHeight: '1.5',
-    textAlign: 'justify',
-    color: '#333',
-  };
 
   return (
-    <div className="container mt-5">
+    <div className="container mt-5" style={{ fontFamily: "'Baloo 2', cursive" }}>
       <div className="row justify-content-center">
         <div className="col-md-8">
-          <div className="card bg-light">
+          <div className="card shadow-lg p-3 mb-5 bg-body rounded">
             <div className="card-body">
-              <h1 className="text-center" style={customStyle}>One Flow Stream</h1>
-              <p style={customStyle}>{about.introduccion}</p>
-              <p style={customStyle}>Horario: {about.horario}</p>
-              <p style={customStyle}>Grupo: {about.grupo}</p>
-              <h2 className="text-center mb-4" style={customStyle}>Estudiantes</h2>
-              <ul className="list-group">
+              <h1 className="text-center text-primary">One Flow Stream</h1>
+              <p className="text-muted">{about.introduccion}</p>
+              <p><strong>Horario:</strong> {about.horario}</p>
+              <p><strong>Grupo:</strong> {about.grupo}</p>
+              <h2 className="text-center text-success mb-4">Estudiantes</h2>
+              <ul className="list-group list-group-flush">
                 {about.autores.map((autor) => (
                   <li key={autor.id} className="list-group-item">
-                    <p style={customStyle}>Nombre: {autor.name}</p>
-                    <p style={customStyle}>ID: {autor.id}</p>
-                    <p style={customStyle}>Correo: {autor.correo}</p>
+                    <p className="fw-bold">Nombre: {autor.name}</p>
+                    <p>ID: {autor.id}</p>
+                    <p>Correo: {autor.correo}</p>
                   </li>
                 ))}
               </ul>
@@ -64,6 +61,7 @@ const About = () => {
       </div>
     </div>
   );
+  
 };
 
 export default About;

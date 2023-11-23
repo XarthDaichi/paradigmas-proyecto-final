@@ -3,6 +3,7 @@ import './App.css';
 import TextEditor from './components/TextEditor/TextEditor';
 import Header from './components/Header';
 import About from './components/about/About'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { API_SERVER_URL } from './components/api/Url';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; 
