@@ -109,7 +109,7 @@ expression_to_atom(es6_expr(E), ExpressionAtom) :-
     es6_expression_to_atom(E, ExpressionAtom)
 .
 
-es6_expression_to_atom(lambda_expr(variables(PE), lambda(E)), ExpressionAtom) :-
+es6_expression_to_atom(lambda_expr([variables(PE), lambda(E)]), ExpressionAtom) :-
     params_to_list(PE, ParamList),
     atomic_list_concat(ParamList, ',', ParamAtom),
     pipe_to_list(E, EList),
@@ -132,14 +132,14 @@ es6_expression_to_atom(conditional_expr([RE, true_then(TE), false_then(FE)]), Ex
     format(atom(ExpressionAtom), '~s ? ~s : ~s', [REAtom, TEAtom, FEAtom])
 .
 
-es6_expression_to_atom(array_expr(contents(AC), operation(AO)), ExpressionAtom) :-
+es6_expression_to_atom(array_expr([contents(AC), operation(AO)]), ExpressionAtom) :-
     array_contents_to_list(AC, ACList),
-    atomic_list_concat(ACList, ACAtom),
+    atomic_list_concat(ACList, ', ', ACAtom),
     array_operation_to_list(AO, AOList),
-    atomic_list_concat(AOList, '+', AOAtom),
+    atomic_list_concat(AOList, ' + ', AOAtom),
     ( AOAtom == ''
-        ->  format(format(ExpressionAtom), '[ ~s ]', [ACAtom])
-        ;   format(format(ExpressionAtom), '[ ~s ] + ~s', [ACAtom, AOAtom])
+        ->  format(atom(ExpressionAtom), '[ ~s ]', [ACAtom])
+        ;   format(atom(ExpressionAtom), '[ ~s ] + ~s', [ACAtom, AOAtom])
     )
 .
 
@@ -219,7 +219,7 @@ simple_to_atom([quali_id(QI), args_expr(AE)], SimpleAtom) :-
     atomic_list_concat(QualiIdList, QualiAtom),
     args_to_list(AE, ArgsList),
     atomic_list_concat(ArgsList, ',', ArgsAtom),
-    format(atom(SimpleAtom), '~s(~s)', [QualiAtom, ArgsAtom])
+    format(atom(SimpleAtom), '~s( ~s )', [QualiAtom, ArgsAtom])
 .
 
 simple_to_atom([quali_id(QI), assign(E)], SimpleAtom) :-
@@ -233,6 +233,12 @@ simple_to_atom([quali_id(QI), assign(E)], SimpleAtom) :-
 quali_id_to_list([access_expr(id(I)) | RI], [AtomI | RIList]) :-
     quali_id_to_list(RI, RIList),
     atomic_list_concat(I, AtomI)
+.
+
+quali_id_to_list([access_expr(E) | RI], [AtomE | RIList]) :-
+    quali_id_to_list(RI, RIList),
+    pipe_to_list(E, EList), 
+    atomic_list_concat(EList, AtomE)
 .
 
 quali_id_to_list(['.' | RI], ['.' | RIList]) :-
