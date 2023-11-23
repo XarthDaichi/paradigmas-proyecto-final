@@ -9,6 +9,8 @@ generator(Filename, program([ISL, SL])) :-
     generate_import_statement(Stream, StreamImport),
     forall(member(Import_statement, ISL),
         generate_import_statement(Stream, Import_statement)),
+    format(Stream, '~n~n', []),
+    trace,
     forall(member(Statement, SL),
         generate_statement(Stream, Statement)),
     close(Stream)
@@ -37,28 +39,30 @@ generate_import_symbols([id(I) | RI], [AtomI | RSymbolsList]) :-
 
 generate_import_symbols([], []).
 
-
 %% generate_statement
-generate_statement(Stream, let( id(I), R)) :- !,
+generate_statement(Stream, let( id(I), R)) :-
     atomic_list_concat(I, AtomI),
     (R \= undefined
-        ->  expression_to_atom(R, AtomE),
+        ->  pipe_to_list(R, PipeList),
+            atomic_list_concat(PipeList, AtomE),
             format(Stream, 'let ~s = ~s;~n~n', [AtomI, AtomE])
         ;   format(Stream, 'let ~s = undefined;~n~n', [AtomI])
     )
 .
 
-generate_statement(Stream, const( id(I), R)) :- !,
+generate_statement(Stream, const( id(I), R)) :-
     atomic_list_concat(I, AtomI),
     (R \= undefined
-        ->  expression_to_atom(R, AtomE),
-            format(Stream, 'let ~s = ~s;~n~n', [AtomI, AtomE])
-        ;   format(Stream, 'let ~s = undefined;~n~n', [AtomI])
+        ->  pipe_to_list(R, PipeList),
+            atomic_list_concat(PipeList, AtomE),
+            format(Stream, 'const ~s = ~s;~n~n', [AtomI, AtomE])
+        ;   format(Stream, 'const ~s = undefined;~n~n', [AtomI])
     )
 .
 
-generate_statement(Stream, E) :- !,
-    expression_to_atom(E, AtomE),
+generate_statement(Stream, E) :-
+    pipe_to_list(E, PipeList),
+    atomic_list_concat(PipeList, AtomE),
     format(Stream, '~s;~n~n', [AtomE])
 .
 
@@ -68,52 +72,67 @@ generate_statement(Stream, S) :-
     generate_line_comment(Stream, Comment)
 .
 
+pipe_to_list(pipe_expr([E | R]), [AtomE | RList]) :- 
+    pipe_to_list(R, RList),
+    expression_to_atom(E, AtomE)
+.
+
+pipe_to_list([], []).
+
 expression_to_atom(iterate_expr(starting_value(Left), iterator(Right)), ExpressionAtom) :-
-    expression_to_atom(Left, LeftAtom), 
-    expression_to_atom(Right, RightAtom),
+    pipe_to_list(Left, LeftList),
+    atomic_list_concat(LeftList, LeftAtom),
+    pipe_to_list(Right, RightList),
+    atomic_list_concat(RightList, RightAtom),
     format(atom(ExpressionAtom), 'new Stream( iterable(~s,  ~s, 1000) )', [LeftAtom, RightAtom])
 .
 
 expression_to_atom(map_expr(mapper(E)), ExpressionAtom) :-
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     format(atom(ExpressionAtom), '.map(~s)', [AtomE])
 .
 
 expression_to_atom(filter_expr(filter(E)), ExpressionAtom) :-
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     format(atom(ExpressionAtom), '.filter(~s)', [AtomE])
 .
 
 expression_to_atom(cut_expr(cut(E)), ExpressionAtom) :-
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     format(atom(ExpressionAtom), '.cut(~s)', [AtomE])
 .
 
 expression_to_atom(es6_expr(E), ExpressionAtom) :-
-    expression_to_atom(E, ExpressionAtom)
+    es6_expression_to_atom(E, ExpressionAtom)
 .
 
-expression_to_atom(lambda_expr(variables(PE), lambda(E)), ExpressionAtom) :-
+es6_expression_to_atom(lambda_expr(variables(PE), lambda(E)), ExpressionAtom) :-
     params_to_list(PE, ParamList),
     atomic_list_concat(ParamList, ',', ParamAtom),
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     format(atom(ExpressionAtom), '(~s) => ~s', [ParamAtom, AtomE])
 .
 
-expression_to_atom(boolean_expr(BE), ExpressionAtom) :-
+es6_expression_to_atom(boolean_expr(BE), ExpressionAtom) :-
     boolean_to_list(BE, BEList),
     atomic_list_concat(BEList, ExpressionAtom)
 .
 
-expression_to_atom(conditional_expr([RE, true_then(TE), false_then(FE)]), ExpressionAtom) :-
+es6_expression_to_atom(conditional_expr([RE, true_then(TE), false_then(FE)]), ExpressionAtom) :-
     relational_to_list(RE, REList),
     atomic_list_concat(REList, REAtom),
-    expression_to_atom(TE, TEAtom),
-    expression_to_atom(FE, FEAtom),
+    pipe_to_list(TE, TEList),
+    atomic_list_concat(TEList, TEAtom),
+    pipe_to_list(FE, FEList),
+    atomic_list_concat(FEList, FEAtom),
     format(atom(ExpressionAtom), '~s ? ~s : ~s', [REAtom, TEAtom, FEAtom])
 .
 
-expression_to_atom(array_expr(contents(AC), operation(AO)), ExpressionAtom) :-
+es6_expression_to_atom(array_expr(contents(AC), operation(AO)), ExpressionAtom) :-
     array_contents_to_list(AC, ACList),
     atomic_list_concat(ACList, ACAtom),
     array_operation_to_list(AO, AOList),
@@ -123,8 +142,6 @@ expression_to_atom(array_expr(contents(AC), operation(AO)), ExpressionAtom) :-
         ;   format(format(ExpressionAtom), '[ ~s ] + ~s', [ACAtom, AOAtom])
     )
 .
-
-expression_to_atom([], []).
 
 boolean_to_list([relational_expr(RE) | RBE], [REAtom | RBEList]) :-
     boolean_to_list(RBE, RBEList),
@@ -140,7 +157,8 @@ boolean_to_list([], []).
 
 relational_to_list([arith_expr(AE) | RRE], [AtomArith | RREList]) :-
     relational_to_list(RRE, RREList),
-    atomic_list_concat(AE, AtomArith)
+    arith_to_list(AE, AEList),
+    atomic_list_concat(AEList, AtomArith)
 .
 
 relational_to_list([rel_opr(RO) | RRE], [RO | RREList]) :-
@@ -169,12 +187,14 @@ factor_to_atom(simple_expr(S), FactorAtom) :-
 .
 
 factor_to_atom(unary_expr([unary_opr(UO) | E]), FactorAtom) :-
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     atomic_list_concat([UO, AtomE], FactorAtom)
 .
 
 factor_to_atom(parenthesis_expr(E), FactorAtom) :-
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     format(atom(FactorAtom), '( ~s )', [AtomE])
 .
 
@@ -183,7 +203,8 @@ literal_to_atom(num(N), AtomN) :-
 .
 
 literal_to_atom(str(S), AtomS) :-
-    atomic_list_concat(S, AtomS)
+    atomic_list_concat(S, AtomStr),
+    format(atom(AtomS), '\'~s\'', [AtomStr])
 .
 
 literal_to_atom(bool(B), B).
@@ -204,7 +225,8 @@ simple_to_atom([quali_id(QI), args_expr(AE)], SimpleAtom) :-
 simple_to_atom([quali_id(QI), assign(E)], SimpleAtom) :-
     quali_id_to_list(QI, QualiIdList),
     atomic_list_concat(QualiIdList, QualiAtom),
-    expression_to_atom(E, AtomE),
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE),
     format(atom(SimpleAtom), '~s = ~s', [QualiAtom, AtomE])
 .
 
@@ -213,15 +235,16 @@ quali_id_to_list([access_expr(id(I)) | RI], [AtomI | RIList]) :-
     atomic_list_concat(I, AtomI)
 .
 
-quali_id_to_list(["." | RI], ["." | RIList]) :-
+quali_id_to_list(['.' | RI], ['.' | RIList]) :-
     quali_id_to_list(RI, RIList)
 .
 
-quali_it_to_atom([], []).
+quali_id_to_list([], []).
 
 args_to_list([ E | RAE ], [AtomE | RAEList]) :-
     args_to_list(RAE, RAEList),
-    expression_to_atom(E, AtomE)
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE)
 .
 
 args_to_list([], []).
@@ -235,14 +258,16 @@ params_to_list([], []).
 
 array_contents_to_list([E | RAC], [AtomE | RACList]) :-
     array_contents_to_list(RAC, RACList),
-    expression_to_atom(E, AtomE)
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE)
 .
 
 array_contents_to_list([],[]).
 
 array_operation_to_list([E | AO], [AtomE | AOList]) :-
     array_operation_to_list(AO, AOList),
-    expression_to_atom(E, AtomE)
+    pipe_to_list(E, EList),
+    atomic_list_concat(EList, AtomE)
 .
 
 array_operation_to_list([], []).

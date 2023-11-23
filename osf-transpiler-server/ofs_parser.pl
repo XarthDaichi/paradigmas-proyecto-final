@@ -142,9 +142,9 @@ right_declaration( undefined ) --> [].
 expression(PE) --> pipe_expression(PE).
 
 %% pipe_expressions
-pipe_expression( [OE | PER] ) --> ofs_expression(OE), pipe_expression_rest(PER).
+pipe_expression( pipe_expr([OE | PER]) ) --> ofs_expression(OE), pipe_expression_rest(PER).
 
-pipe_expression_rest( pipe_expr([OE | PER]) ) --> spaces, ">>", spaces, ofs_expression(OE), spaces, pipe_expression_rest(PER).
+pipe_expression_rest( [OE | PER] ) --> spaces, ">>", spaces, ofs_expression(OE), spaces, pipe_expression_rest(PER).
 pipe_expression_rest( [] ) --> [].
 
 %% ofs_expressions
@@ -201,7 +201,7 @@ literal_expression(S) --> spaces, string(S), spaces.
 literal_expression(B) --> spaces, boolean(B), spaces.
 
 %%%%%% simple_expressions
-simple_expression([QI | RSE]) --> spaces, qualifiable_id(QI), spaces, simple_expression_right(RSE).
+simple_expression([QI , RSE]) --> spaces, qualifiable_id(QI), spaces, simple_expression_right(RSE).
 
 simple_expression_right(assign(E)) --> spaces, "=", spaces, expression(E).
 simple_expression_right(AE) --> spaces, args_expression(AE), spaces.
@@ -216,7 +216,7 @@ parenthesis_expression(E) --> "(", spaces, expression(E), spaces, ")".
 %%%%%%% qualifiable_ids
 qualifiable_id(quali_id([AE | RQI])) --> spaces, access_expression(AE), spaces, qualifiable_id_rest(RQI).
 
-qualifiable_id_rest([AE | ['.' | RQI]]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
+qualifiable_id_rest(['.' | [AE | RQI]]) --> spaces, ".", spaces, access_expression(AE), qualifiable_id_rest(RQI).
 qualifiable_id_rest([AE | RQI]) --> spaces, access_expression(AE), qualifiable_id_rest(RQI).
 qualifiable_id_rest([]) --> [].
 
@@ -230,7 +230,7 @@ args_expression_contents_rest([E | RAEC]) --> ",", spaces, expression(E), spaces
 args_expression_contents_rest([]) --> [].
 
 %%%%%%%% access_expressions
-access_expression(access_expr([I])) --> spaces, ident(I), spaces.
+access_expression(access_expr(I)) --> spaces, ident(I), spaces.
 access_expression(access_expr(E)) --> "[", spaces, expression(E), spaces, "]".
 
 %%%% array_expressions
