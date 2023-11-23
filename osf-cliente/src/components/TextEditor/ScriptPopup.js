@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ScriptPopup = ({ onSave }) => {
+const ScriptPopup = ({ onSave, onClose  }) => {
   const [scriptName, setScriptName] = useState('');
 
   const handleSave = () => {
@@ -9,18 +9,28 @@ const ScriptPopup = ({ onSave }) => {
   };
 
   return (
-    <div style={{ marginLeft: '30%' }} > 
-    <div className="script-popup">
-      <input
-        type="text"
-        placeholder={scriptName === "" ? "Nombre de Script" : `${scriptName}`}
-        value={scriptName}
-        onChange={(e) => setScriptName(e.target.value)}
-      />
-      <button onClick={handleSave}>Save</button>
-    </div>
+    <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+      <div className="modal-dialog modal-dialog-centered">
+        <div className="modal-content">
+          <div className="modal-header">
+            <h5 className="modal-title">Guardar Script</h5>
+          </div>
+          <div className="modal-body">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre del Script"
+              value={scriptName}
+              onChange={(e) => setScriptName(e.target.value)}
+            />
+          </div>
+          <div className="modal-footer">
+            <button type="button" className="btn btn-secondary" onClick={onClose}>Cerrar</button>
+            <button type="button" className="btn btn-primary" onClick={handleSave}>Guardar</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
-
 export default ScriptPopup;

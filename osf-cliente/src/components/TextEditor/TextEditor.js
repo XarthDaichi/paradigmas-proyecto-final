@@ -234,10 +234,14 @@ const TextEditor = ({ keywordsList }) => {
     </div>
   ));
 
+  const togglePopup = () => {
+    setIsPopupOpen(!isPopupOpen);
+  };
+
   return (
     <div className="center-container">
       <div className="custom-container">
-        <div className="text-editor">
+        <div className="text-editor" style={{ fontFamily: "'Baloo 2', cursive" }}>
           <div className="line-numbers">{lineNumbers}</div>
           <textarea
           id="TI"
@@ -269,12 +273,12 @@ const TextEditor = ({ keywordsList }) => {
         </div>
         <KeywordChecker text={inputText} 
         evalRes={evalText} />
-       <div className="custom-buttons mb-4">
-          <div className="dropdown">
-            <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              Menú
-            </button>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+       <div className="custom-buttons mb-4 mt-4" style={{ fontFamily: "'Baloo 2', cursive", display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <div className="dropdown">
+          <button className="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Menú
+          </button>
+          <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
               <li><button className="dropdown-item" onClick={handleClear}>Clear All</button></li>
               <li><button className="dropdown-item" onClick={handleSendToServer}>Send to Server</button></li>
               <li><button className="dropdown-item" onClick={handleSaveScript}>Save Script</button></li>
@@ -287,7 +291,7 @@ const TextEditor = ({ keywordsList }) => {
             className="form-select" 
             onChange={handleScriptSelect} 
             value={selectedScriptId} 
-            style={{ minWidth: '150px', height: '35px' }}
+            style={{ minWidth: '130px', height: '35px' }}
           >
             <option value="">Selecciona un script</option>
             {scripts.map((script) => (
@@ -297,7 +301,7 @@ const TextEditor = ({ keywordsList }) => {
             ))}
           </select>
         </div>
-        {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} />}
+        {isPopupOpen && <ScriptPopup onSave={handleSaveScriptPopup} onClose={togglePopup} />}
         {errorMessage && <div className="error-message">{errorMessage}</div>}
 
         <div className="info-box p-3 rounded shadow text-center" style={{ fontFamily: "'Baloo 2', cursive" }}>

@@ -122,12 +122,11 @@ body {
 }
 
 .info-box {
-  background-color: #f8f9fa; 
+  background-color: #ffffff; 
   border: 1px solid #dee2e6; 
   border-radius: .25rem;
-  padding: 1rem; 
+  padding: 5rem; 
   font-family: 'Baloo 2', cursive;
-  color: #212529; 
 }
 
 .line-numbers {
