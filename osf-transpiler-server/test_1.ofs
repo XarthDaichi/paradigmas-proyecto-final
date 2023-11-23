@@ -1,4 +1,0 @@
-const nats = [* 0, n -> n + 1]
-const even = nats >> [? n -> n % 2 == 0]
-const evenLessThanEleven = even >> [? n -> n < 11]
-evenLessThanElevenOnlyTen >> [> n -> console.log(n)] >> [!10]
