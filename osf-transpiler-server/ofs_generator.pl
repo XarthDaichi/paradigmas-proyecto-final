@@ -88,7 +88,7 @@ pipe_to_list([], []).
 expression_to_atom(iterate_expr([starting_value(Left), iterator(Right)]), ExpressionAtom) :-
     pipe_to_atom(Left, LeftAtom),
     pipe_to_atom(Right, RightAtom),
-    format(atom(ExpressionAtom), 'Stream.iterableCreator(~s,  ~s, 100000)', [LeftAtom, RightAtom])
+    format(atom(ExpressionAtom), 'Stream.iterableCreator(~s,  ~s)', [LeftAtom, RightAtom])
 .
 
 expression_to_atom(map_expr(mapper(E)), ExpressionAtom) :-
@@ -104,6 +104,11 @@ expression_to_atom(filter_expr(filter(E)), ExpressionAtom) :-
 expression_to_atom(cut_expr(cut(E)), ExpressionAtom) :-
     pipe_to_atom(E, AtomE),
     format(atom(ExpressionAtom), '.cut(~s)', [AtomE])
+.
+
+expression_to_atom(foreach_expr(foreach(E)), ExpressionAtom) :-
+    pipe_to_atom(E, AtomE),
+    format(atom(ExpressionAtom), '.forEach(~s)', AtomE)
 .
 
 expression_to_atom(es6_expr(E), ExpressionAtom) :-

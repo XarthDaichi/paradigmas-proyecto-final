@@ -58,6 +58,7 @@ Hay comentarios los cuales el lexer elimina. Pueden ser de una línea o multlín
                     | map_expression
                     | filter_expression
                     | cut_expression
+                    | foreach_expression
                     | es6_expression
 
  iterate_expression -> "[*" expression "," expression "]"
@@ -67,6 +68,8 @@ Hay comentarios los cuales el lexer elimina. Pueden ser de una línea o multlín
  filter_expression -> "[?" expression "]"
 
  cut_expression -> "[!" expression "]"
+
+ foreach_expression -> "[/" expression "]"
 
  es6_expression -> boolean_expression
                     | lambda_expression
@@ -152,6 +155,7 @@ ofs_expression(iterate_expr(IE)) --> iterate_expression(IE).
 ofs_expression(map_expr(ME)) --> map_expression(ME).
 ofs_expression(filter_expr(FE)) --> filter_expression(FE).
 ofs_expression(cut_expr(CE)) --> cut_expression(CE).
+ofs_expression(foreach_expr(FE)) --> foreach_expression(FE).
 ofs_expression(es6_expr(EE)) --> es6_expression(EE).
 
 iterate_expression([starting_value(Left), iterator(Right)]) --> "[*", spaces, expression(Left), spaces, ",", spaces, expression(Right), spaces, "]".
@@ -161,6 +165,8 @@ map_expression(mapper(E)) --> "[>", spaces, expression(E), spaces, "]".
 filter_expression(filter(E)) --> "[?", spaces, expression(E), spaces, "]".
 
 cut_expression(cut(E)) --> "[!", spaces, expression(E), spaces, "]".
+
+foreach_expression(foreach(E)) --> "[/", spaces, expression(E), spaces, "]".
 
 %%% es6_expressions 
 es6_expression(lambda_expr(LE)) --> lambda_expression(LE).

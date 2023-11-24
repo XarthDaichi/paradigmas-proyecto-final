@@ -52,6 +52,12 @@ export class Stream {
 		return new Stream( gen(this.#iterable) );
 	}
 
+	forEach( f ) {
+		for (const e of this.#iterable) {
+			f(e)
+		}
+	}
+
 	iterable() {
 		return this.#iterable;
 	}
